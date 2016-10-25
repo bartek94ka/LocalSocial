@@ -1,6 +1,6 @@
 {
-	"name": "ASP.NET",
-	"private": true,
+  "name": "ASP.NET",
+  "private": true,
   "dependencies": {
     "angular": "1.5.8",
     "angular-resource": "1.5.8",
