@@ -1,4 +1,4 @@
-﻿<html lang="en" ng-app="StarterApp">
+﻿<html lang="en">
 
 <head>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
@@ -8,14 +8,15 @@
           rel="stylesheet">
 </head>
 
-<body layout="column" ng-controller="AppCtrl">
-    <md-toolbar layout="row">
+<body ng-app="StarterApp">
+    <md-toolbar layout="column" layout="row">
         <div class="md-toolbar-tools">
-            
-            <i class="material-icons" ng-click="toggleSidenav('left')" aria-label="Toggle Menu">dehaze</i>
-            <h1 layout-align-gt-sm="center">
-                LocalSocial
-            </h1>
+            <div ng-controller="AppCtrl">
+                <i class="material-icons" ng-click="toggleSidenav('left')" aria-label="Toggle Menu">dehaze</i>
+                <h1 layout-align-gt-sm="center">
+                    LocalSocial
+                </h1>
+            </div>
         </div>
     </md-toolbar>
 
@@ -26,19 +27,24 @@
                         md-disable-backdrop md-whiteframe="4">
 
                 <md-toolbar class="md-toolbar-tools">
-                    <i class="material-icons" ng-click="toggleSidenav('left')" aria-label="Toggle Menu">dehaze</i>
-                    <h1 layout-align-gt-sm="center">
-                        Menu
-                    </h1>
+                    <div ng-controller="AppCtrl">
+                        <i class="material-icons" ng-click="toggleSidenav('left')" aria-label="Toggle Menu">dehaze</i>
+                        <h1 layout-align-gt-sm="center">
+                            LocalSocial
+                        </h1>
+                    </div>
                 </md-toolbar>
-
                 <md-content>
-                    <ul>
-                        <li>Ustawienia konta</li>
-                        <li>Moje posty</li>
-                        <li>Zmiana zasięgu</li>
-                        <li>Znajomi</li>
-                    </ul>
+                    <div ng-controller="MenuController as menu">
+                        <ul>
+                            <li ng-repeat="menuItem in menu.items">
+                                <a href="{{menuItem.LinkReference}}">
+                                   
+                                    {{menuItem.LinkText}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </md-content>
             </md-sidenav>
 
@@ -80,6 +86,7 @@
     <script src="lib/angular-material/angular-material.min.js"></script>
     <!-- Controllers -->
     <script src="Controllers/postController.js"></script>
+    <script src="Controllers/menuController.js"></script>
     <!-- app.js -->
     <script src="app.js"></script>
 
