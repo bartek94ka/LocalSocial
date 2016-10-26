@@ -8,15 +8,15 @@
           rel="stylesheet">
 </head>
 
-<body ng-app="StarterApp">
+<body ng-app="StarterApp" ng-cloak>
     <md-toolbar layout="column" layout="row">
         <div class="md-toolbar-tools">
             <div ng-controller="AppCtrl">
                 <i class="material-icons" ng-click="toggleSidenav('left')" aria-label="Toggle Menu">dehaze</i>
-                <h1 layout-align-gt-sm="center">
-                    LocalSocial
-                </h1>
             </div>
+            <h1 layout-align-gt-sm="center">
+                LocalSocial
+            </h1>
         </div>
     </md-toolbar>
 
@@ -29,22 +29,24 @@
                 <md-toolbar class="md-toolbar-tools">
                     <div ng-controller="AppCtrl">
                         <i class="material-icons" ng-click="toggleSidenav('left')" aria-label="Toggle Menu">dehaze</i>
-                        <h1 layout-align-gt-sm="center">
-                            LocalSocial
-                        </h1>
                     </div>
+                    <h1 layout-align-gt-sm="center">
+                        LocalSocial
+                    </h1>
                 </md-toolbar>
                 <md-content>
-                    <div ng-controller="MenuController as menu">
-                        <ul>
+
+                        <ul ng-controller="MenuController as menu">
                             <li ng-repeat="menuItem in menu.items">
-                                <a href="{{menuItem.LinkReference}}">
-                                   
-                                    {{menuItem.LinkText}}
-                                </a>
+                                
+                                <md-button href="{{menuItem.LinkReference}}">
+                                    <span class="ng-binding ng-scope">
+                                        <md-icon class="material-icons">{{menuItem.LinkIcon}}</md-icon>
+                                        {{menuItem.LinkText}}
+                                    </span>
+                                </md-button>
                             </li>
                         </ul>
-                    </div>
                 </md-content>
             </md-sidenav>
 
