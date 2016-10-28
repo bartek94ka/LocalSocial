@@ -7,12 +7,22 @@
   "dependencies": {
     "EntityFramework.Core": "7.0.0-rc1-final",
     "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
+    "EntityFramework.Commands": "7.0.0-rc1-final",
+    "Microsoft.Owin.Security": "3.0.1",
+    "Microsoft.Owin.Security.Cookies": "3.0.1",
+    "Microsoft.Owin.Security.OAuth": "3.0.1",
+    "System.Net.Http": "4.1.0",
     "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
     "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-rc1-final",
     "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
     "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
-    "EntityFramework.Commands": "7.0.0-rc1-final",
-    "Microsoft.AspNet.Identity.EntityFramework": "2.2.1"
+    "Microsoft.AspNet.Identity.Core": "2.2.1",
+    "Microsoft.AspNet.Identity.Owin": "2.2.1",
+    "Microsoft.AspNet.Identity.EntityFramework": "2.2.1",
+    "Microsoft.AspNet.WebApi.WebHost": "5.2.3",
+    "Microsoft.AspNet.WebApi.Owin": "5.2.3",
+    "Microsoft.AspNet.WebApi": "5.2.3",
+    "Microsoft.Owin.Host.SystemWeb": "3.0.1"
   },
 
   "commands": {
