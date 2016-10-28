@@ -20,14 +20,12 @@ namespace LocalSocial.Models
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime AddDate { get; set; }
         public string UserId { get; set; }
-        public int LocationId { get; set; }
-        public string Tag { get; set; }
-        public int TagId { get; set; }
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
     }
     public class PostsBindingModel
     {
         [Required]
         public string PostContent { get; set; }
-        public int TagId { get; set; }
     }
 }
