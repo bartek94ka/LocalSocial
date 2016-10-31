@@ -25,14 +25,20 @@
     "Microsoft.Owin.Host.SystemWeb": "3.0.1"
   },
 
+  "tools": {
+    "Microsoft.EntityFrameworkCore.Tools": "1.0.0-preview2-final"
+  },
+
   "commands": {
     "web": "Microsoft.AspNet.Server.Kestrel",
-    "ef": "EntityFramework.Commands"
+    "ef": "EntityFramework"
   },
 
   "frameworks": {
-    
-    "dnx452": {} 
+
+    "dnx452": {
+
+    }
   },
 
   "exclude": [

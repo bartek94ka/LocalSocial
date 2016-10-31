@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using LocalSocial.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.Data.Entity;
 
 namespace LocalSocial
 {
@@ -17,14 +17,14 @@ namespace LocalSocial
         // If you wish to target a different database and/or database provider, modify the 'LocalSocialContext' 
         // connection string in the application configuration file.
         public LocalSocialContext()
-            : base("name=Model1")
+            : base("Server=tcp:poznan.database.windows.net,1433;Initial Catalog=LocalSocial;Persist Security Info=False;User ID=poznan;Password=Kaczka1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;")
         {
-        }
-        public static LocalSocialContext Create()
-        {
-            return new LocalSocialContext();
         }
         public DbSet<Post> Post { get; set; }
         public DbSet<User> User { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
     }
 }
