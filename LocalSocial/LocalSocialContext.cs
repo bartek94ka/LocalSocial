@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Data.Entity;
 using LocalSocial.Models;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Data.Entity.Infrastructure;
 
 namespace LocalSocial
 {
-    public class LocalSocialContext : IdentityDbContext
+    public class LocalSocialContext : IdentityDbContext<User>
     {
         // Your context has been configured to use a 'LocalSocialContext' connection string from your application's 
         // configuration file (App.config or Web.config). By default, this connection string targets the 
@@ -16,14 +13,17 @@ namespace LocalSocial
         // 
         // If you wish to target a different database and/or database provider, modify the 'LocalSocialContext' 
         // connection string in the application configuration file.
-        public LocalSocialContext()
-            : base("Server=tcp:poznan.database.windows.net,1433;Initial Catalog=LocalSocial;Persist Security Info=False;User ID=poznan;Password=Kaczka1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;")
+
+
+        //public DbSet<Post> Post { get; set; }
+        //public DbSet<User> User { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
+            options.UseSqlServer("Server=tcp:poznan.database.windows.net,1433;Initial Catalog=LocalSocial;Persist Security Info=False;User ID=poznan;Password=Kaczka1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         }
-        public DbSet<Post> Post { get; set; }
-        public DbSet<User> User { get; set; }
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }

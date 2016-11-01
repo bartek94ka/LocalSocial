@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
+using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
@@ -16,22 +17,27 @@ namespace LocalSocial
     {
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
-            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json").AddEnvironmentVariables();
-            Configuration = builder.Build();
+            //var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json").AddEnvironmentVariables();
+            //Configuration = builder.Build();
 
-            // Set up data directory
-            string appRoot = appEnv.ApplicationBasePath;
-            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(appRoot, "App_Data"));
+            //// Set up data directory
+            //string appRoot = appEnv.ApplicationBasePath;
+            //AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(appRoot, "App_Data"));
         }
         public IConfigurationRoot Configuration { get; set; }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped(provicer =>
-            {
-                return new LocalSocialContext();
-            });
+            services.AddEntityFramework();
+            //services.AddEntityFramework()
+            //    .AddSqlServer()
+            //    .AddDbContext<LocalSocialContext>(options =>
+            //            options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+            //services.AddScoped(provicer =>
+            //{
+            //    return new LocalSocialContext();
+            //});
             services.AddMvc();
         }
 
