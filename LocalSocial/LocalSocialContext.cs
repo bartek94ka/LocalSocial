@@ -26,5 +26,6 @@ namespace LocalSocial
             base.OnModelCreating(modelBuilder);
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+        public DbSet<Post> Post { get; set; }
     }
 }
