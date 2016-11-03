@@ -6,6 +6,7 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 
+[Route("api/[controller]")]
 public class AccountController : Controller
 {
 
@@ -49,23 +50,25 @@ public class AccountController : Controller
     [Route("login")]
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> Login(Login model)
+    //public async Task<IActionResult> Login(Login model)
+    public async Task<IActionResult> Login([FromBody] Login model)
     {
         if (ModelState.IsValid)
         {
             var result = await _loginManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                return Json("ok");
+                return Ok();
             }
         }
 
-
-        return Json(model);
+        //jakąś lepszą odpowiedź przygotować
+        return HttpNotFound();
     }
 
     //4
-    [Route("logoff"),HttpPost]
+    [Route("logoff")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> LogOff()
     {

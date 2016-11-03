@@ -8,6 +8,7 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Http.Internal;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
@@ -22,57 +23,95 @@ namespace LocalSocial
     {
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json");
+            // Set up configuration sources.
 
-            if (env.IsEnvironment("Development"))
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            if (env.IsDevelopment())
             {
+                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+                builder.AddUserSecrets();
+
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
 
             builder.AddEnvironmentVariables();
-            Configuration = builder.Build().ReloadOnChanged("appsettings.json");
+            Configuration = builder.Build();
         }
         public IConfigurationRoot Configuration { get; set; }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEntityFramework();
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
-            //services.AddEntityFramework()
-            //    .AddSqlServer()
-            //    .AddDbContext<LocalSocialContext>(options =>
-            //            options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-            //services.AddScoped(provicer =>
-            //{
-            //    return new LocalSocialContext();
-            //});
+
+            services.AddEntityFramework()
+                .AddSqlServer()
+                .AddDbContext<LocalSocialContext>(options =>
+                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<LocalSocialContext>()
                 .AddDefaultTokenProviders();
-            
-            
             services.AddMvc();
+
         }
 
         
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            
-
-            app.UseIISPlatformHandler();
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
             app.UseApplicationInsightsRequestTelemetry();
 
+            if (env.IsDevelopment())
+            {
+                app.UseBrowserLink();
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                //app.UseExceptionHandler("/Home/Error");
+
+                // For more details on creating database during deployment see http://go.microsoft.com/fwlink/?LinkID=615859
+                //try
+                //{
+                //    using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                //        .CreateScope())
+                //    {
+                //        serviceScope.ServiceProvider.GetService<LocalSocialContext>()
+                //             .Database.Migrate();
+                //    }
+                //}
+                //catch { }
+            }
+
+            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
+
             app.UseApplicationInsightsExceptionTelemetry();
+
+            app.UseDefaultFiles();
 
             app.UseStaticFiles();
 
-            app.UseMvc();
+            app.UseIdentity();
+
+            // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
+            
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action}/{id?}");
+            });
+            //app.UseMvc();
         }
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);
         // Entry point for the application.
