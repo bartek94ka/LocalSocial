@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using LocalSocial.Models;
 using LocalSocial.Models.Bindings;
@@ -24,8 +25,8 @@ public class AccountController : Controller
 
     [Route("register"), HttpPost]
     [AllowAnonymous]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(Register model)
+    //[ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register([FromBody] Register model)
     {
         if (ModelState.IsValid)
         {
@@ -43,7 +44,7 @@ public class AccountController : Controller
             }
         }
 
-        return Json(model);
+        return HttpBadRequest();
     }
 
     //3
@@ -69,7 +70,7 @@ public class AccountController : Controller
     //4
     [Route("logoff")]
     [HttpPost]
-    [ValidateAntiForgeryToken]
+    //[ValidateAntiForgeryToken]
     public async Task<IActionResult> LogOff()
     {
         await _loginManager.SignOutAsync();

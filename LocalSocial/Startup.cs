@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,7 +55,15 @@ namespace LocalSocial
                 .AddDbContext<LocalSocialContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(o =>
+                {
+                    // configure identity options
+                    o.Password.RequireDigit = false;
+                    o.Password.RequireLowercase = false;
+                    o.Password.RequireUppercase = false;
+                    o.Password.RequiredLength = 5;
+                    o.Password.RequireNonLetterOrDigit = false;
+                })
                 .AddEntityFrameworkStores<LocalSocialContext>()
                 .AddDefaultTokenProviders();
             services.AddMvc();
@@ -103,8 +112,20 @@ namespace LocalSocial
 
             app.UseIdentity();
 
+            //app.UseJwtBearerAuthentication(options =>
+            //{
+            //    options.Audience = "[app ID URI]";
+            //    options.Authority = "https://login.microsoftonline.com/common/";
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        //Instead of validating against a fixed set of known issuers, we perform custom multi-tenant validation logic
+            //        ValidateIssuer = false,
+            //    };
+            //    //options.Events = new SurveysJwtBearerEvents();
+            //});
+
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
-            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -2,6 +2,7 @@
 
 <head>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-cookies.js"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
     <meta name="viewport" content="initial-scale=1" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -49,32 +50,20 @@
             </md-sidenav>
         </section>
     </div>
-<div layout="row" layout-align="center center" layout-align-gt-md="center center">
-    
-        <form name="userForm">
-            <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>userName</label>
-                    <input md-input data-ng-model="registration.userName" type="email" required>
-                </md-input-container>
-            </div>
-            <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>Hasło</label>
-                    <input md-input id="password" data-ng-model="registration.password" type="password" required>
-                </md-input-container>
-            </div>
-            <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>Powtórz hasło</label>
-                    <input md-input id="password2" data-ng-model="registration.confirmPassword" type="password" required>
-                </md-input-container>
-            </div>
-            <div layout-gt-sm="row">
-                <md-button md-raised-button class="md-raised" ng-click="signUp()">Rejestruj</md-button>
-            </div>
-        </form>
-</div>
+    <div layout="row" layout-align="center center" layout-align-gt-md="center center" ng-controller="logincontroller">
+        <md-content layout-padding>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Email</label>
+                <input md-input type="text" ng-model="Email" required>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Hasło</label>
+                <input md-input type="password" ng-model="Password" required>
+            </md-input-container>
+            <md-button class="md-raised md primary" ng-click="login2()">Zaloguj się</md-button>
+            <md-button class="md-raised md primary" ng-click="logoff()">Wyloguj się</md-button>
+        </md-content>
+    </div>
     <!-- Angular Material requires Angular.js Libraries -->
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular-animate/angular-animate.min.js"></script>
@@ -90,6 +79,7 @@
     <script src="Controllers/contentController.js"></script>
     <!-- app.js -->
     <script src="app.js"></script>
+    <script src="LoginLogic.js"></script>
 
 
 </body>

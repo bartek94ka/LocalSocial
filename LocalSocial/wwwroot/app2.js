@@ -1,4 +1,109 @@
-﻿app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
+﻿var app = angular.module('StarterApp', ['ngMaterial']);
+
+angular.module('app', ['ngMaterial']);
+
+app.controller('AppCtrl', ['$scope', '$mdSidenav', function ($scope, $mdSidenav) {
+    $scope.toggleSidenav = function (menuId) {
+        $mdSidenav(menuId).toggle();
+    };
+
+    var list = [];
+    for (var i = 0; i < 100; i++) {
+        list.push({
+            name: 'List Item ' + i,
+            idx: i
+        });
+    }
+    $scope.list = list;
+    $scope.imagePath = 'img/small.png';
+}
+]);
+
+app.controller('MenuController', MenuController);
+app.controller('ContentController', ContentController);
+app.controller('RegisterController', ['$scope', '$location', '$timeout', 'authService', function ($scope, $location, $timeout, authService) {
+
+    $scope.savedSuccessfully = false;
+    $scope.message = "";
+
+    $scope.registration = {
+        userName: "",
+        password: "",
+        confirmPassword: ""
+    };
+
+    $scope.signUp = function () {
+
+        authService.saveRegistration($scope.registration).then(function (response) {
+
+            $scope.savedSuccessfully = true;
+            $scope.message = "User has been registered successfully, you will be redicted to login page in 2 seconds.";
+            //startTimer();
+
+        },
+         function (response) {
+             var errors = [];
+             for (var key in response.data.modelState) {
+                 for (var i = 0; i < response.data.modelState[key].length; i++) {
+                     errors.push(response.data.modelState[key][i]);
+                 }
+             }
+             $scope.message = "Failed to register user due to:" + errors.join(' ');
+         });
+    };
+
+    //var startTimer = function () {
+    //    var timer = $timeout(function () {
+    //        $timeout.cancel(timer);
+    //        $location.path('/login');
+    //    }, 2000);
+    //}
+
+}]);
+
+app.controller('LoginController',
+[
+    '$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
+        var serviceBase = ngAuthSettings.apiServiceBaseUri;
+        var authServiceFactory = {};
+        var _login = function (loginData) {
+
+            var data = {
+                "Email": loginData.Email,
+                "Password": loginData.Password
+            };
+
+            var deferred = $q.defer();
+
+            $http.post('/api/test/login', data, { headers: { 'Content-Type': 'application/json' } })
+                .success(function (response) {
+                    localStorageService.set('authorizationData',
+                    {
+                        ai_user: response.ai_user,
+                        UPLzPa_G_hg: response.UPLzPa_G_hg,
+                        ai_session: response.ai_session,
+                        userName: loginData.Email,
+                    });
+                    _authentication.isAuth = true;
+                    _authentication.userName = loginData.Email;
+
+                    deferred.resolve(response);
+
+                })
+                .error(function (err, status) {
+                    //_logOut();
+                    //deferred.reject(err);
+                });
+
+            return deferred.promise;
+        }
+
+        authServiceFactory.login = _login;
+        return authServiceFactory;
+    }
+])
+
+app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var authServiceFactory = {};
@@ -167,3 +272,8 @@
 
     return authServiceFactory;
 }]);
+
+
+
+
+

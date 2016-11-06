@@ -5,6 +5,8 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
 using LocalSocial;
 using LocalSocial.Models;
+using Microsoft.AspNet.Authentication.JwtBearer;
+using Microsoft.AspNet.Authorization;
 
 namespace LocalSocial.Controllers
 {
@@ -14,6 +16,8 @@ namespace LocalSocial.Controllers
         private LocalSocialContext _context = new LocalSocialContext();
         // GET: api/values
         [HttpGet]
+        //[Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
