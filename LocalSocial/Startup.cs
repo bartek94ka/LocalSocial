@@ -102,15 +102,26 @@ namespace LocalSocial
                 //catch { }
             }
 
-            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
-
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseDefaultFiles();
 
             app.UseStaticFiles();
 
+            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
+
             app.UseIdentity();
+
+            //app.Use(async (context, next) =>
+            //    {
+            //        await next();
+            //        if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
+            //        {
+            //            context.Request.Path = "/index.html";
+            //            await next();
+            //        }
+            //    }
+            //);
 
             //app.UseJwtBearerAuthentication(options =>
             //{

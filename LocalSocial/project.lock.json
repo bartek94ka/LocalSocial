@@ -1133,25 +1133,6 @@
           "lib/net451/Microsoft.AspNet.StaticFiles.dll": {}
         }
       },
-      "Microsoft.AspNet.Tooling.Razor/1.0.0-rc1-final": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.Razor.Runtime": "4.0.0-rc1-final",
-          "Newtonsoft.Json": "6.0.6"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.CSharp",
-          "mscorlib",
-          "System",
-          "System.Core"
-        ],
-        "compile": {
-          "lib/net451/Microsoft.AspNet.Tooling.Razor.dll": {}
-        },
-        "runtime": {
-          "lib/net451/Microsoft.AspNet.Tooling.Razor.dll": {}
-        }
-      },
       "Microsoft.AspNet.WebUtilities/1.0.0-rc1-final": {
         "type": "package",
         "dependencies": {
@@ -3356,25 +3337,6 @@
         },
         "runtime": {
           "lib/net451/Microsoft.AspNet.StaticFiles.dll": {}
-        }
-      },
-      "Microsoft.AspNet.Tooling.Razor/1.0.0-rc1-final": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.Razor.Runtime": "4.0.0-rc1-final",
-          "Newtonsoft.Json": "6.0.6"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.CSharp",
-          "mscorlib",
-          "System",
-          "System.Core"
-        ],
-        "compile": {
-          "lib/net451/Microsoft.AspNet.Tooling.Razor.dll": {}
-        },
-        "runtime": {
-          "lib/net451/Microsoft.AspNet.Tooling.Razor.dll": {}
         }
       },
       "Microsoft.AspNet.WebUtilities/1.0.0-rc1-final": {
@@ -5583,25 +5545,6 @@
           "lib/net451/Microsoft.AspNet.StaticFiles.dll": {}
         }
       },
-      "Microsoft.AspNet.Tooling.Razor/1.0.0-rc1-final": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.Razor.Runtime": "4.0.0-rc1-final",
-          "Newtonsoft.Json": "6.0.6"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.CSharp",
-          "mscorlib",
-          "System",
-          "System.Core"
-        ],
-        "compile": {
-          "lib/net451/Microsoft.AspNet.Tooling.Razor.dll": {}
-        },
-        "runtime": {
-          "lib/net451/Microsoft.AspNet.Tooling.Razor.dll": {}
-        }
-      },
       "Microsoft.AspNet.WebUtilities/1.0.0-rc1-final": {
         "type": "package",
         "dependencies": {
@@ -7488,23 +7431,6 @@
         "Microsoft.AspNet.StaticFiles.nuspec"
       ]
     },
-    "Microsoft.AspNet.Tooling.Razor/1.0.0-rc1-final": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "ZWDxJ4sqrZyrtmlRKeBYrxguRNBnTGV2LNgyZrSyVQ8DcQjPkSqFwu18BeER+j6Od2mgV5aOCdCLDN0QnjYI7Q==",
-      "files": [
-        "app/project.json",
-        "app/razor-tooling",
-        "app/razor-tooling.cmd",
-        "lib/dotnet5.4/Microsoft.AspNet.Tooling.Razor.dll",
-        "lib/dotnet5.4/Microsoft.AspNet.Tooling.Razor.xml",
-        "lib/net451/Microsoft.AspNet.Tooling.Razor.dll",
-        "lib/net451/Microsoft.AspNet.Tooling.Razor.xml",
-        "Microsoft.AspNet.Tooling.Razor.1.0.0-rc1-final.nupkg",
-        "Microsoft.AspNet.Tooling.Razor.1.0.0-rc1-final.nupkg.sha512",
-        "Microsoft.AspNet.Tooling.Razor.nuspec"
-      ]
-    },
     "Microsoft.AspNet.WebUtilities/1.0.0-rc1-final": {
       "type": "package",
       "serviceable": true,
@@ -9062,7 +8988,6 @@
       "Microsoft.AspNet.Mvc.TagHelpers >= 6.0.0-rc1-final",
       "Microsoft.AspNet.Server.Kestrel >= 1.0.0-rc1-final",
       "Microsoft.AspNet.StaticFiles >= 1.0.0-rc1-final",
-      "Microsoft.AspNet.Tooling.Razor >= 1.0.0-rc1-final",
       "Microsoft.Extensions.CodeGenerators.Mvc >= 1.0.0-rc1-final",
       "Microsoft.Extensions.Configuration.FileProviderExtensions >= 1.0.0-rc1-final",
       "Microsoft.Extensions.Configuration.Json >= 1.0.0-rc1-final",
