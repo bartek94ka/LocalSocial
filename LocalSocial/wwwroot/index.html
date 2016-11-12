@@ -11,6 +11,16 @@
 
 <body ng-app="StarterApp" ng-cloak>
 <div class="container-fluid">
+    <md-toolbar layout="column" layout="row">
+        <div class="md-toolbar-tools">
+            <div ng-controller="AppCtrl">
+                <i class="material-icons" ng-click="toggleSidenav('left')" aria-label="Toggle Menu">dehaze</i>
+            </div>
+            <h1 layout-align-gt-sm="center">
+                LocalSocial
+            </h1>
+        </div>
+    </md-toolbar>
     <ng-view></ng-view>
 </div>
     <!-- Angular Material requires Angular.js Libraries -->
@@ -20,6 +30,7 @@
     <script src="lib/angular-messages/angular-messages.min.js"></script>
     <script src="lib/angular-resource/angular-resource.min.js"></script>
     <script src="lib/angular-route/angular-route.min.js"></script>
+    <script src="lib/angular-cookies/angular-cookies.min.js"></script>
     <!-- Angular Material Library -->
     <script src="lib/angular-material/angular-material.min.js"></script>
     <!-- Services-->

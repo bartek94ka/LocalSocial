@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LocalSocial.Models;
 using LocalSocial.Models.Bindings;
 using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
@@ -111,7 +112,7 @@ namespace LocalSocial.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction("");
+            return Ok();
         }
         
         #region Helpers

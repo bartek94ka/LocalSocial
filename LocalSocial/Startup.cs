@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LocalSocial.Models;
+using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
@@ -66,6 +67,7 @@ namespace LocalSocial
                 })
                 .AddEntityFrameworkStores<LocalSocialContext>()
                 .AddDefaultTokenProviders();
+
             services.AddMvc();
 
         }
@@ -101,6 +103,11 @@ namespace LocalSocial
                 //}
                 //catch { }
             }
+            app.UseCookieAuthentication(new CookieAuthenticationOptions()
+            {
+                ExpireTimeSpan = TimeSpan.FromHours(1.0),
+                CookieHttpOnly = false
+            });
 
             app.UseApplicationInsightsExceptionTelemetry();
 
@@ -111,31 +118,6 @@ namespace LocalSocial
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
             app.UseIdentity();
-
-            //app.Use(async (context, next) =>
-            //    {
-            //        await next();
-            //        if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
-            //        {
-            //            context.Request.Path = "/index.html";
-            //            await next();
-            //        }
-            //    }
-            //);
-
-            //app.UseJwtBearerAuthentication(options =>
-            //{
-            //    options.Audience = "[app ID URI]";
-            //    options.Authority = "https://login.microsoftonline.com/common/";
-            //    options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        //Instead of validating against a fixed set of known issuers, we perform custom multi-tenant validation logic
-            //        ValidateIssuer = false,
-            //    };
-            //    //options.Events = new SurveysJwtBearerEvents();
-            //});
-
-            // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {

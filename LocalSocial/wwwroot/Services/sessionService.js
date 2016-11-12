@@ -1,5 +1,5 @@
 ﻿//1.
-var SessionService = function ($http) {
+var SessionService = function ($http, $cookies) {
 
     this.register = function (userInfo) {
         var resp = $http({
@@ -22,7 +22,7 @@ var SessionService = function ($http) {
         return resp;
     };
 
-    this.logoff = function () {
+    this.logoff = function ($cookieStore) {
         var resp = $http({
             url: "/api/test/logoff",
             method: "POST",

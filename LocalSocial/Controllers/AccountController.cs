@@ -1,9 +1,11 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LocalSocial.Models;
 using LocalSocial.Models.Bindings;
 using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 
@@ -12,70 +14,90 @@ public class AccountController : Controller
 {
 
     //1
-    private readonly UserManager<User> _securityManager;
-    private readonly SignInManager<User> _loginManager;
+    private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
     //1
-    public AccountController(UserManager<User> secMgr, SignInManager<User> loginManager)
+    public AccountController(UserManager<User> userManager,
+            SignInManager<User> signInManager)
     {
-        _securityManager = secMgr;
-        _loginManager = loginManager;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
-    //2
+    // POST: /Account/Login
+    [Route("login")]
+    [HttpPost]
+    [AllowAnonymous]
+    //[ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login([FromBody] Login model, string returnUrl = null)
+    {
+        ViewData["ReturnUrl"] = returnUrl;
+        if (ModelState.IsValid)
+        {
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                //return RedirectToLocal(returnUrl);
+                return Ok();
+            }
+            //if (result.RequiresTwoFactor)
+            //{
+            //    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+            //}
+            if (result.IsLockedOut)
+            {
+                return View("Lockout");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
+            }
+        }
 
-    [Route("register"), HttpPost]
+        // If we got this far, something failed, redisplay form
+        return View(model);
+    }
+
+    //
+    // POST: /Account/Register
+    [Route("register")]
+    [HttpPost]
     [AllowAnonymous]
     //[ValidateAntiForgeryToken]
     public async Task<IActionResult> Register([FromBody] Register model)
     {
         if (ModelState.IsValid)
         {
-            var user = new User
-            {
-                UserName = model.Email,
-                Email = model.Email
-            };
-            var result = await _securityManager.CreateAsync(user, model.Password);
+            var user = new User { UserName = model.Email, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                await _loginManager.SignInAsync(user, isPersistent: false);
-                return Json("Ok");
-                //return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
-        }
-
-        return HttpBadRequest();
-    }
-
-    //3
-    [Route("login")]
-    [HttpPost]
-    [AllowAnonymous]
-    //public async Task<IActionResult> Login(Login model)
-    public async Task<IActionResult> Login([FromBody] Login model)
-    {
-        if (ModelState.IsValid)
-        {
-            var result = await _loginManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
-            if (result.Succeeded)
-            {
+                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+                // Send an email with this link
+                //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                await _signInManager.SignInAsync(user, isPersistent: false);
                 return Ok();
             }
         }
 
-        //jakąś lepszą odpowiedź przygotować
-        return HttpNotFound();
+        // If we got this far, something failed, redisplay form
+        return HttpBadRequest();//View(model);
     }
 
-    //4
+    //
+    // POST: /Account/LogOff
     [Route("logoff")]
     [HttpPost]
     //[ValidateAntiForgeryToken]
     public async Task<IActionResult> LogOff()
     {
-        await _loginManager.SignOutAsync();
-
-        //return RedirectToAction(nameof(HomeController.Index), "Home");
-        return null;
+        await _signInManager.SignOutAsync();
+        return Ok();
     }
 }

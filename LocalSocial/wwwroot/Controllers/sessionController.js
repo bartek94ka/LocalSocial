@@ -1,5 +1,5 @@
 ﻿//2.
-var SessionController = function ($scope, SessionService) {
+var SessionController = function ($scope, $cookieStore, $rootScope, SessionService) {
 
     //my declarations
     $scope.response = "";
@@ -14,7 +14,7 @@ var SessionController = function ($scope, SessionService) {
     //Function to logout user
     $scope.logoff = function () {
         var promiselogoff = SessionService.logoff();
-
+        $rootScope.IsUserLogged = false;
     };
 
     //Function to Login. This will generate Token 
@@ -30,15 +30,13 @@ var SessionController = function ($scope, SessionService) {
         promiselogin.then(function (resp) {
 
             $scope.Email = resp.data.Email;
-            //Store the token information in the SessionStorage
-            //So that it can be accessed for other views
-            console.print(resp);
-            //sessionStorage.setItem('ai_user', resp.data.ai_user);
-            //sessionStorage.setItem('UPLzPa_G_hg', resp.data.UPLzPa_G_hg);
-            //sessionStorage.setItem('ai_session', resp.data.ai_session);
+            console.log($rootScope.IsUserLogged);
+            $rootScope.IsUserLogged = true;
+            console.log($rootScope.IsUserLogged);
         }, function (err) {
 
             $scope.response = "Error " + err.status;
+            $rootScope.IsUserLogged = false;
         });
         //window.location.href = "https://www.google.pl/";
     };
@@ -60,14 +58,11 @@ var SessionController = function ($scope, SessionService) {
         promiseregister.then(function (resp) {
 
             $scope.Email = resp.data.Email;
-            //Store the token information in the SessionStorage
-            //So that it can be accessed for other views
-            sessionStorage.setItem('ai_user', resp.data.ai_user);
-            sessionStorage.setItem('UPLzPa_G_hg', resp.data.UPLzPa_G_hg);
-            sessionStorage.setItem('ai_session', resp.data.ai_session);
+            $rootScope.IsUserLogged = true;
         }, function (err) {
 
             $scope.response = "Error " + err.status;
+            $rootScope.IsUserLogged = false;
         });
     };
 
