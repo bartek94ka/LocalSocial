@@ -53,9 +53,9 @@
             {
                 templateUrl: 'Views/Home/index.html'
             })
-            //.otherwise({
-            //    redirectTo: '/home'
-            //});
+            .otherwise({
+                redirectTo: '/home'
+            });
     });
     
 })();

@@ -1,6 +1,6 @@
 ﻿var MenuController = function ($rootScope) {
     this.items = [];
-    if ($rootScope.IsUserLogged == false) {
+    if ($rootScope.IsUserLogged === false) {
         this.items.push(MenuItem("Strona główna", "/", "home"));
         this.items.push(MenuItem("Logowanie", "/", "home"));
         this.items.push(MenuItem("Rejestracja", "/", "home"));
