@@ -1,6 +1,6 @@
 ﻿//2.
 var SessionController = function ($scope, $cookieStore, $rootScope, SessionService) {
-
+    
     //my declarations
     $scope.response = "";
     $scope.Email = "";

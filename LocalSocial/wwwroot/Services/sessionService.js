@@ -1,5 +1,5 @@
 ﻿//1.
-var SessionService = function ($http, $cookies) {
+var SessionService = function ($http) {
 
     this.register = function (userInfo) {
         var resp = $http({

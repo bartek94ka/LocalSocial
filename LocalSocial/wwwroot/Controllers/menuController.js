@@ -4,7 +4,7 @@
         this.items.push(MenuItem("Strona główna", "/", "home"));
         this.items.push(MenuItem("Logowanie", "/", "home"));
         this.items.push(MenuItem("Rejestracja", "/", "home"));
-    } else {
+    } else{
         this.items.push(MenuItem("Strona główna", "/", "home"));
         this.items.push(MenuItem("Znajomi", "/friends", "group"));
         this.items.push(MenuItem("Moje posty", "/myposts", "note"));

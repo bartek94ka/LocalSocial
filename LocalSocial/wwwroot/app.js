@@ -1,28 +1,32 @@
 ﻿(function($scope) {
     'use strict'
-    var app = angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngCookies']);
+    var app = angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngCookies', 'ngMessages']);
+
+    //app.constructor(Auth, $state)
+    //{
+    //    this.Auth = Auth;
+    //    this.$state = $state;
+    //};
 
     SessionService.$inject = ['$http', '$cookies'];
     app.service('SessionService', SessionService);
-
-    //SessionController.$inject = ['$scope']
+    PostService.$inject = ['$http'];
+    app.service('PostService', PostService);
 
     app.controller('AppCtrl', SideNavController);
     app.controller('MenuController', MenuController);
     app.controller('ContentController', ContentController);
     app.controller('SessionController', SessionController);
-    app.run(function ($rootScope) {
-        $rootScope.IsUserLogged = false;
-    });
+    app.controller('PostController', PostController);
     
     app.config(function ($routeProvider) {
         
         $routeProvider
-            .when('/posts',
+            .when('/addpost',
             {
-                templateUrl: 'Views/Posts/index.html',
-                controller: 'PostsController',
-                controllerAs: 'postCtrl'
+                templateUrl: 'Views/AddPost/index.html'
+                //controller: 'postController',
+                //controllerAs: 'postCtrl'
             })
             .when('/login',
             {
