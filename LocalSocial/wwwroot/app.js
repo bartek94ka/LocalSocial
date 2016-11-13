@@ -18,6 +18,7 @@
     app.controller('ContentController', ContentController);
     app.controller('SessionController', SessionController);
     app.controller('PostController', PostController);
+    app.controller('LocationController', LocationController);
     
     app.config(function ($routeProvider) {
         
@@ -27,6 +28,10 @@
                 templateUrl: 'Views/AddPost/index.html'
                 //controller: 'postController',
                 //controllerAs: 'postCtrl'
+            })
+            .when('/range',
+            {
+                templateUrl: 'Views/UserLocation/index.html'
             })
             .when('/login',
             {
