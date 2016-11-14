@@ -16,7 +16,8 @@ namespace LocalSocial.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
-        public string PostContent { get; set; }
+        public string Title { get; set; }
+        public string Descryption { get; set; }
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime AddDate { get; set; }
         public string UserId { get; set; }
@@ -26,6 +27,8 @@ namespace LocalSocial.Models
     public class PostsBindingModel
     {
         [Required]
-        public string PostContent { get; set; }
+        public string Title { get; set; }
+        [Required]
+        public string Descryption { get; set; }
     }
 }

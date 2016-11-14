@@ -45,7 +45,7 @@
                 <div flex>
                     <md-list ng-controller="MenuController as menu">
                         <md-list-item ng-repeat="menuItem in menu.items">
-                            <md-button href="{{menuItem.LinkReference}}">
+                            <md-button ng-click="toggleSidenav('left')" href="{{menuItem.LinkReference}}">
                                 <span class="ng-binding ng-scope">
                                     <md-icon class="material-icons">{{menuItem.LinkIcon}}</md-icon>
                                     {{menuItem.LinkText}}
