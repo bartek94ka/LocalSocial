@@ -12,13 +12,15 @@
     app.service('SessionService', SessionService);
     PostService.$inject = ['$http'];
     app.service('PostService', PostService);
+    //LocationService.$inject = ['$window'];
+    //app.service('LocationService', LocationService);
 
     app.controller('AppCtrl', SideNavController);
     app.controller('MenuController', MenuController);
     app.controller('ContentController', ContentController);
     app.controller('SessionController', SessionController);
     app.controller('PostController', PostController);
-    app.controller('LocationController', LocationController);
+    //app.controller('LocationController', LocationController);
     
     app.config(function ($routeProvider) {
         
