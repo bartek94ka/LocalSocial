@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using LocalSocial.Models;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Mvc;
+
+namespace LocalSocial.Controllers
+{
+    [Route("api/[controller]")]
+    public class UsersController: Controller
+    {
+        private readonly LocalSocialContext _context;
+        private readonly UserManager<User> _userManager;
+
+        public UsersController(LocalSocialContext context, UserManager<User> userManager )
+        {
+            _context = context;
+            _userManager = userManager;
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> User()
+        {
+            var userId = HttpContext.User.GetUserId();
+            var user = _context.User.FirstOrDefault(x => x.Id == userId);
+            if (user != null)
+                return Ok(new UserBindingModel {Name = user.Name, Surname = user.Surname});
+            else
+                return Ok();
+        }
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> Users([FromBody] UserBindingModel model)
+        //public async Task<IActionResult> Users()
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = HttpContext.User.GetUserId();
+                var user = _context.User.FirstOrDefault(x => x.Id == userId);
+                user.Name = model.Name;
+                user.Surname = model.Surname;
+                //await _userManager.ChangePasswordAsync(User, model.OldPassword, model.NewPassword);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return HttpBadRequest();
+        }
+    }
+}

@@ -37,4 +37,12 @@ namespace LocalSocial.Models
         //    return userIdentity;
         //}
     }
+    public class UserBindingModel
+    {
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string OldPassword { get; set; }
+        public string NewPassword { get; set; }
+        public string ConfirmPassword { get; set; }
+    };
 }

@@ -14,12 +14,15 @@
     app.service('PostService', PostService);
     //LocationService.$inject = ['$window'];
     //app.service('LocationService', LocationService);
+    UserService.$inject = ['$http'];
+    app.service('UserService', UserService);
 
     app.controller('AppCtrl', SideNavController);
     app.controller('MenuController', MenuController);
     app.controller('ContentController', ContentController);
     app.controller('SessionController', SessionController);
     app.controller('PostController', PostController);
+    app.controller('UserController', UserController);
     //app.controller('LocationController', LocationController);
     
     app.config(function ($routeProvider) {
@@ -38,6 +41,10 @@
             .when('/login',
             {
                 templateUrl: 'Views/Login/index.html'
+            })
+            .when('/settings',
+            {
+                templateUrl: 'Views/Settings/index.html'
             })
             .when('/',
             {
