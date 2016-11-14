@@ -30,5 +30,11 @@ namespace LocalSocial.Models
         public string Title { get; set; }
         [Required]
         public string Descryption { get; set; }
+
+        [Required]
+        public float Latitude { get; set; }
+        [Required]
+        public float Longitude { get; set; }
+    }
     }
 }

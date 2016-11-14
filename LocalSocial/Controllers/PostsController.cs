@@ -19,8 +19,8 @@ namespace LocalSocial.Controllers
         {
             return new List<Post>
             {
-                new Post {PostContent = "aaa"},
-                new Post {PostContent = "Post2"}
+                new Post {Descryption = "aaa"},
+                new Post {Descryption = "Post2"}
             };
         }
 
