@@ -1,21 +1,49 @@
-﻿var PostController = function ($scope, $window) {
+﻿var PostController = function ($scope, PostService) {
     $scope.Lat = null;
     $scope.Lng = null;
-    if (navigator.geolocation) {
-        
-        $scope.myLocation = navigator.geolocation.getCurrentPosition(
-            function (position) {
-                console.log(position);
-                $scope.Lat = position.coords.latitude;
-                $scope.Lng = position.coords.longitude;
-            }
-        );
-    }
+    $scope.GetLocation = function() {
+        if (navigator.geolocation) {
+
+            $scope.myLocation = navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    
+                    $scope.Lat = position.coords.latitude;
+                    $scope.Lng = position.coords.longitude;
+                    $scope.$digest();
+                }
+            );
+        }
+    };
+
     $scope.post = {
         title: '',
-        descryption: '',
+        description: '',
     };
-    $scope.addPost = function() {
+    $scope.AddPost = function() {
+        var postData = {
+            Title: $scope.post.title,
+            Description: $scope.post.description,
+            Latitude: $scope.Lat,
+            Longitude: $scope.Lng,
+        };
 
+        var promisePost = PostService.addPost(postData);
+
+        promisePost.then(function(resp) {
+            //zmiana okna na moje ogloszenia
+        }, function(err) {
+            //message z bledem
+        });
     };
 };
+
+//if (navigator.geolocation) {
+
+//    $scope.myLocation = navigator.geolocation.getCurrentPosition(
+//        function (position) {
+//            console.log(position);
+//            $scope.Lat = position.coords.latitude;
+//            $scope.Lng = position.coords.longitude;
+//        }
+//    );
+//}

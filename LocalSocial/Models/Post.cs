@@ -17,19 +17,19 @@ namespace LocalSocial.Models
         [Key]
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Descryption { get; set; }
+        public string Description { get; set; }
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime AddDate { get; set; }
         public string UserId { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }
     }
-    public class PostsBindingModel
+    public class PostBindingModel
     {
         [Required]
         public string Title { get; set; }
         [Required]
-        public string Descryption { get; set; }
+        public string Description { get; set; }
         [Required]
         public float Latitude { get; set; }
         [Required]

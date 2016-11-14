@@ -1,16 +1,17 @@
-﻿var PostService = function ($scope, $http) {
+﻿var PostService = function ($http) {
 
     this.getAll = function () {
-        var resp = $http.get('api/post');
+        var resp = $http.get('api/posts');
         return resp;
     };
 
-    this.addPost = function(data) {
+    this.addPost = function (data) {
+        console.log(data);
         var resp = $http({
-            url: "/api/post",
+            url: "/api/posts",
             method: "POST",
-            data: { Title: data.Title, Description: data.Description },
-            headers: { 'Content-Type': 'application/json' },
+            data: { Title: data.Title, Description: data.Description, Latitude: data.Latitude, Longitude: data.Longitude },
+            headers: { 'Content-Type': 'application/json' }
         });
         return resp;
     };

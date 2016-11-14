@@ -24,7 +24,8 @@ namespace LocalSocial.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> User()
+        //public async Task<IActionResult> User()
+        public IActionResult Users()
         {
             var userId = HttpContext.User.GetUserId();
             var user = _context.User.FirstOrDefault(x => x.Id == userId);

@@ -1,27 +1,60 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
 using LocalSocial;
 using LocalSocial.Models;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Identity;
 
 namespace LocalSocial.Controllers
 {
     [Route("api/[controller]")]
     public class PostsController : Controller
     {
-        private LocalSocialContext _context = new LocalSocialContext();
+        private readonly LocalSocialContext _context;
+        private readonly UserManager<User> _userManager;
 
+        public PostsController(LocalSocialContext context, UserManager<User> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddPost([FromBody] PostBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Post.Add(
+                    new Post()
+                    {
+                        Title = model.Title,
+                        Description = model.Description,
+                        AddDate = DateTime.Now,
+                        Latitude = model.Latitude,
+                        Longitude = model.Longitude,
+                        UserId = HttpContext.User.GetUserId()
+                    });
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return HttpBadRequest();
+        }
         // GET: api/Posts
         [HttpGet]
-        public IEnumerable<Post> GetPost()
+        [Authorize]
+        public async Task<IEnumerable<Post>> GetMyPosts()
         {
-            return new List<Post>
-            {
-                new Post {Descryption = "aaa"},
-                new Post {Descryption = "Post2"}
-            };
+            var userId = HttpContext.User.GetUserId();
+            //var posts = _context.Post.AllAsync(x => x.UserId == userId);
+            var posts = _context.Post.AsEnumerable();
+            return posts;
         }
 
         //// GET: api/Posts/5

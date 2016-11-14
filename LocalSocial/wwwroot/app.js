@@ -12,10 +12,11 @@
     app.service('SessionService', SessionService);
     PostService.$inject = ['$http'];
     app.service('PostService', PostService);
+    app.service('UserService', UserService);
     //LocationService.$inject = ['$window'];
     //app.service('LocationService', LocationService);
     UserService.$inject = ['$http'];
-    app.service('UserService', UserService);
+    
 
     app.controller('AppCtrl', SideNavController);
     app.controller('MenuController', MenuController);
