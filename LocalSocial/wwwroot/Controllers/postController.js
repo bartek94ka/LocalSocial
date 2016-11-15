@@ -1,4 +1,4 @@
-﻿var PostController = function ($scope, PostService) {
+﻿var PostController = function ($scope, $q, PostService) {
     $scope.Lat = null;
     $scope.Lng = null;
     $scope.GetLocation = function() {
@@ -21,12 +21,11 @@
     };
     $scope.userPosts = [];
     $scope.GetMyPosts = function () {
+
         var promiseMyPost = PostService.getMyPost();
 
         promiseMyPost.then(function (resp) {
-            console.log(resp.data);
             $scope.userPosts = resp.data;
-            console.log($scope.userPosts);
         },function(err) {
                 console.log('blad w getmyposts');
             }

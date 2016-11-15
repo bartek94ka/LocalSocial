@@ -1,26 +1,22 @@
-﻿<div layout="row" layout-align="center center" layout-align-gt-md="center center" ng-controller="PostController" >
-    <md-content layout-padding>
-        <ul>
-            <li ng-repeat="item in PostController.userPosts" align-items:center flex-gt-xs="50">
-                <md-card class="card" layout-margin>
-                    <md-card-title>
-                        <md-card-title-text>
-                            <span class="md-headline">{{item.Title}}</span>
-                        </md-card-title-text>
-                    </md-card-title>
-                    <md-card-actions layout="row" layout-align="start center">
-                        <md-card-icon-actions>
-                            <md-button class="material-icons">favorite</md-button>
-                            <md-button class="material-icons">share</md-button>
-                        </md-card-icon-actions>
-                    </md-card-actions>
-                    <md-card-content>
-                        <p>
-                            {{item.Description}}
-                        </p>
-                    </md-card-content>
-                </md-card>
-            </li>
-        </ul>
-    </md-content>
+﻿<div layout="row" layout-align="center center" ng-controller="PostController" ng-init="GetMyPosts()">
+    <ul>
+        <md-card class="card" ng-repeat="item in userPosts">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{item.Title}}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>
+                    {{item.Description}}
+                </p>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="start center">
+                <md-card-icon-actions>
+                    <md-button class="material-icons">favorite</md-button>
+                    <md-button class="material-icons">share</md-button>
+                </md-card-icon-actions>
+            </md-card-actions>
+        </md-card>
+    </ul>
 </div>
