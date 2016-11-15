@@ -1,10 +1,5 @@
 ﻿var PostService = function ($http) {
 
-    this.getAll = function () {
-        var resp = $http.get('api/posts/all');
-        return resp;
-    };
-
     this.deletePost = function(id) {
         var resp = $http({
             url: "/api/posts/delete/" + id,
@@ -13,12 +8,28 @@
         })
         return resp;
     };
-
     this.addPost = function (data) {
         var resp = $http({
             url: "/api/posts/add",
             method: "POST",
             data: { Title: data.Title, Description: data.Description, Latitude: data.Latitude, Longitude: data.Longitude },
+            headers: { 'Content-Type': 'application/json' }
+        });
+        return resp;
+    };
+    this.editPost = function (data, id) {
+        var resp = $http({
+            url: "/api/posts/edit/" + id,
+            method: "PUT",
+            data: { Title: data.Title, Description: data.Description, Latitude: data.Latitude, Longitude: data.Longitude },
+            headers: { 'Content-Type': 'application/json' }
+        });
+        return resp;
+    };
+    this.getPost = function (id) {
+        var resp = $http({
+            url: "/api/posts/post/" + id,
+            method: "GET",
             headers: { 'Content-Type': 'application/json' }
         });
         return resp;
@@ -29,6 +40,10 @@
             method: "GET",
             headers: { 'Content-Type': 'application/json' }
         });
+        return resp;
+    };
+    this.getAll = function () {
+        var resp = $http.get('api/posts/all');
         return resp;
     };
 }

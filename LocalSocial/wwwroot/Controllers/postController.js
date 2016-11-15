@@ -1,4 +1,4 @@
-﻿var PostController = function ($scope, $q, PostService) {
+﻿var PostController = function ($scope,$routeParams, PostService) {
     $scope.Lat = null;
     $scope.Lng = null;
     $scope.GetLocation = function() {
@@ -17,8 +17,9 @@
 
     $scope.post = {
         title: '',
-        description: ''
-    };
+        description: '',
+        Id: '',
+};
     $scope.userPosts = [];
     $scope.GetMyPosts = function () {
 
@@ -42,6 +43,32 @@
 
             });
     };
+    $scope.GetPost = function () {
+        var promisePost = PostService.getPost($routeParams.postId);
+
+        promisePost.then(function(resp) {
+                $scope.post.title = resp.data.Title;
+                $scope.post.description = resp.data.Description;
+                $scope.post.Id = resp.data.Id;
+            },
+            function(err) {
+
+            });
+    };
+    $scope.SavePost = function () {
+        var postData = {
+            Title: $scope.post.title,
+            Description: $scope.post.description,
+            Latitude: 1.3,
+            Longitude: 1.3,
+        };
+        var promisePost = PostService.editPost(postData, $scope.post.Id);
+        promisePost.then(function (resp) {
+            //zmiana okna na moje ogloszenia
+        }, function (err) {
+            //message z bledem
+        });
+    }
     $scope.AddPost = function() {
         var postData = {
             Title: $scope.post.title,
@@ -59,14 +86,3 @@
         });
     };
 };
-
-//if (navigator.geolocation) {
-
-//    $scope.myLocation = navigator.geolocation.getCurrentPosition(
-//        function (position) {
-//            console.log(position);
-//            $scope.Lat = position.coords.latitude;
-//            $scope.Lng = position.coords.longitude;
-//        }
-//    );
-//}

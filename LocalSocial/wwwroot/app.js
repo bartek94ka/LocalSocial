@@ -35,6 +35,10 @@
                 //controller: 'postController',
                 //controllerAs: 'postCtrl'
             })
+            .when('/editpost/:postId',
+            {
+                templateUrl: 'Views/EditPost/index.html'
+            })
             .when('/myposts',
             {
                 templateUrl: 'Views/MyPosts/index.html',

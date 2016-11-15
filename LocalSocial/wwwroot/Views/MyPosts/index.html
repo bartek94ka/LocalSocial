@@ -1,5 +1,5 @@
 ﻿<div layout="row" layout-align="center center" ng-controller="PostController" ng-init="GetMyPosts()">
-    <ul>
+    <ul align-items:center flex-gt-xs="50" layout-margin>
         <md-card class="card" ng-repeat="item in userPosts">
             <md-card-title>
                 <md-card-title-text>
@@ -13,7 +13,7 @@
             </md-card-content>
             <md-card-actions layout="row" layout-align="start center">
                 <md-card-icon-actions>
-                    <md-button>Edytuj</md-button>
+                    <md-button  href="#/editpost/{{item.Id}}">Edytuj</md-button>
                     <md-button ng-click="DeleteMyPost(item)">Usuń</md-button>
                 </md-card-icon-actions>
             </md-card-actions>
