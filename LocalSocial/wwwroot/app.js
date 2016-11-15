@@ -35,6 +35,12 @@
                 //controller: 'postController',
                 //controllerAs: 'postCtrl'
             })
+            .when('/myposts',
+            {
+                templateUrl: 'Views/MyPosts/index.html',
+                controller: 'PostController',
+                resolve: PostController.GetMyPosts
+            })
             .when('/range',
             {
                 templateUrl: 'Views/UserLocation/index.html'

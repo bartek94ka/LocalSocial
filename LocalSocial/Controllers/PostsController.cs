@@ -24,7 +24,7 @@ namespace LocalSocial.Controllers
             _context = context;
             _userManager = userManager;
         }
-
+        [Route("add")]
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> AddPost([FromBody] PostBindingModel model)
@@ -47,13 +47,24 @@ namespace LocalSocial.Controllers
             return HttpBadRequest();
         }
         // GET: api/Posts
+        [Route("all")]
+        [HttpGet]
+        [Authorize]
+        public async Task<IEnumerable<Post>> GetPosts()
+        {
+            var userId = HttpContext.User.GetUserId();
+            //var posts = _context.Post.AllAsync(x => x.UserId == userId);
+            var posts = _context.Post.AsEnumerable();
+            return posts;
+        }
+
+        [Route("myposts")]
         [HttpGet]
         [Authorize]
         public async Task<IEnumerable<Post>> GetMyPosts()
         {
             var userId = HttpContext.User.GetUserId();
-            //var posts = _context.Post.AllAsync(x => x.UserId == userId);
-            var posts = _context.Post.AsEnumerable();
+            var posts = _context.Post.AsQueryable().Where(x => x.UserId == userId);
             return posts;
         }
 
@@ -109,35 +120,6 @@ namespace LocalSocial.Controllers
         //    }
 
         //    return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
-        //}
-
-        //// POST: api/Posts
-        //[HttpPost]
-        //public IActionResult PostPost([FromBody] Post post)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return HttpBadRequest(ModelState);
-        //    }
-
-        //    _context.Post.Add(post);
-        //    try
-        //    {
-        //        _context.SaveChanges();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (PostExists(post.Id))
-        //        {
-        //            return new HttpStatusCodeResult(StatusCodes.Status409Conflict);
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return CreatedAtRoute("GetPost", new { id = post.Id }, post);
         //}
 
         //// DELETE: api/Posts/5

@@ -17,7 +17,21 @@
 
     $scope.post = {
         title: '',
-        description: '',
+        description: ''
+    };
+    $scope.userPosts = [];
+    $scope.GetMyPosts = function () {
+        var promiseMyPost = PostService.getMyPost();
+
+        promiseMyPost.then(function (resp) {
+            console.log(resp.data);
+            $scope.userPosts = resp.data;
+            console.log($scope.userPosts);
+        },function(err) {
+                console.log('blad w getmyposts');
+            }
+        );
+
     };
     $scope.AddPost = function() {
         var postData = {
