@@ -46,6 +46,54 @@ namespace LocalSocial.Controllers
             }
             return HttpBadRequest();
         }
+
+        [Route("edit/{Id:int")]
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> EditPost(int Id, [FromBody] PostBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Post post = await _context.Post.FirstAsync(x => x.Id == Id);
+                if (post != null)
+                {
+                    post.Title = model.Title;
+                    post.Description = model.Description;
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                        return Ok();
+                    }
+                    catch
+                    {
+                        return HttpBadRequest();
+                    }
+                }
+            }
+            return HttpBadRequest();
+        }
+
+        [Route("delete/{Id:int}")]
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> DeletePost(int Id)
+        {
+            Post post = await _context.Post.FirstAsync(x => x.Id == Id);
+            if (post != null)
+            {
+                try
+                {
+                    _context.Remove(post);
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
+                catch
+                {
+                    return HttpBadRequest();
+                }
+            }
+            return HttpBadRequest();
+        }
         // GET: api/Posts
         [Route("all")]
         [HttpGet]

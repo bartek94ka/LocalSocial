@@ -32,6 +32,16 @@
         );
 
     };
+    $scope.DeleteMyPost = function(Post) {
+        var promiseDelete = PostService.deletePost(Post.Id);
+
+        promiseDelete.then(function(resp) {
+
+            },
+            function(err) {
+
+            });
+    };
     $scope.AddPost = function() {
         var postData = {
             Title: $scope.post.title,

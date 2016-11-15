@@ -5,8 +5,16 @@
         return resp;
     };
 
+    this.deletePost = function(id) {
+        var resp = $http({
+            url: "/api/posts/delete/" + id,
+            method: "DELETE",
+            headers: { 'Content-Type': 'application/json' }
+        })
+        return resp;
+    };
+
     this.addPost = function (data) {
-        console.log(data);
         var resp = $http({
             url: "/api/posts/add",
             method: "POST",
