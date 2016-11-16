@@ -1,6 +1,7 @@
 ﻿var UserController = function($scope, UserService) {
     $scope.Name = '';
     $scope.Surname = '';
+    $scope.SearchRange;
     $scope.Email = '';
     $scope.OldPassword = '';
     $scope.NewPassword = '';
@@ -11,7 +12,8 @@
     {
         var UserData = {
             Name: $scope.Name,
-            Surname: $scope.Surname
+            Surname: $scope.Surname,
+            SearchRange: $scope.SearchRange
         };
 
         var promiseSave = UserService.UpdateData(UserData);
@@ -31,6 +33,7 @@
             console.log(resp);
                 $scope.Name = resp.data.Name;
                 $scope.Surname = resp.data.Surname;
+                $scope.SearchRange = resp.data.SearchRange;
             },
         function(err) {
             console.log('Blad w loaddata');

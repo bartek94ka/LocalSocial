@@ -42,7 +42,7 @@ namespace LocalSocial.Controllers
                 //range - dystans w kilometrach
                 //GeoCalculation.GetDistance(...) - zwraca dystans w milach => 1 mila = 1.6 km
                 var result = (from p in _context.Post
-                    let range = user.SearchRange/100
+                    let range = user.SearchRange/1000
                     where
                     range >=
                     GeoCalculator.GetDistance(model.Latitude, model.Longitude, p.Latitude, p.Longitude, 5)/1.6

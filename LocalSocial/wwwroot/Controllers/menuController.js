@@ -8,10 +8,10 @@
         this.items.push(MenuItem("Dodaj post", "#/addpost", "note_add"));
         this.items.push(MenuItem("Zmiana zasięgu", "#/range", "gps_fixed"));
         this.items.push(MenuItem("Ustawienia konta", "#/settings", "settings"));
-        this.items.push(MenuItem("Wyloguj się", "/", "power_settings_new"));
+        this.items.push(MenuItem("Wyloguj się", "#/", "power_settings_new"));
     } else {
         this.items.push(MenuItem("Strona główna", "#/", "home"));
-        this.items.push(MenuItem("Logowanie", "#/login", "home"));
+        this.items.push(MenuItem("Logowanie", "#/login", "login"));
         this.items.push(MenuItem("Rejestracja", "#/register", "home"));
     }
     $scope.toggleSidenav = function (menuId) {

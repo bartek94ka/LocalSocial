@@ -13,7 +13,6 @@
 
     app.controller('AppCtrl', SideNavController);
     app.controller('MenuController', MenuController);
-    app.controller('ContentController', ContentController);
     app.controller('SessionController', SessionController);
     app.controller('PostController', PostController);
     app.controller('UserController', UserController);
@@ -55,7 +54,9 @@
             })
             .when('/',
             {
-                templateUrl: 'Views/Home/index.html'
+                templateUrl: 'Views/Home/index.html',
+                controller: 'PostController',
+                resolve: PostController.GetLocation
             })
             .when('/home',
             {

@@ -76,7 +76,7 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = new User { UserName = model.Email, Email = model.Email };
+            var user = new User { UserName = model.Email, Email = model.Email, SearchRange = 1000};
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {

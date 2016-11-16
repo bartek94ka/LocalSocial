@@ -1,6 +1,12 @@
 ﻿var PostController = function ($scope,$routeParams, PostService) {
     $scope.Lat = null;
     $scope.Lng = null;
+    $scope.post = {
+        title: '',
+        description: '',
+        Id: '',
+    };
+    $scope.userPosts = [];
     $scope.GetLocation = function() {
         if (navigator.geolocation) {
 
@@ -14,13 +20,36 @@
             );
         }
     };
+    $scope.GetPosts= function () {
+        if (navigator.geolocation) {
 
-    $scope.post = {
-        title: '',
-        description: '',
-        Id: '',
-};
-    $scope.userPosts = [];
+            $scope.myLocation = navigator.geolocation.getCurrentPosition(
+                function (position) {
+
+                    $scope.Lat = position.coords.latitude;
+                    $scope.Lng = position.coords.longitude;
+                    $scope.GetPostFromRange();
+                    $scope.$digest();
+                }
+            );
+        }
+    };
+    $scope.GetPostFromRange = function () {
+        
+        var locationData = {
+            Longitude: $scope.Lng,
+            Latitude: $scope.Lat
+        };
+
+        var promisePosts = PostService.getPostsFromRange(locationData);
+
+        promisePosts.then(function(resp) {
+            $scope.userPosts = resp.data;
+            },
+            function(err) {
+                console.log('error w getpostfromrange');
+            });
+    };
     $scope.GetMyPosts = function () {
 
         var promiseMyPost = PostService.getMyPost();
@@ -37,7 +66,7 @@
         var promiseDelete = PostService.deletePost(Post.Id);
 
         promiseDelete.then(function(resp) {
-
+                window.location.href = "#/myposts";
             },
             function(err) {
 
@@ -64,7 +93,7 @@
         };
         var promisePost = PostService.editPost(postData, $scope.post.Id);
         promisePost.then(function (resp) {
-            //zmiana okna na moje ogloszenia
+            window.location.href = "#/myposts";
         }, function (err) {
             //message z bledem
         });
@@ -80,7 +109,7 @@
         var promisePost = PostService.addPost(postData);
 
         promisePost.then(function(resp) {
-            //zmiana okna na moje ogloszenia
+            window.location.href = "#/myposts";
         }, function(err) {
             //message z bledem
         });

@@ -8,6 +8,10 @@
             <label>Nazwisko</label>
             <input md-input type="text" ng-model="Surname" required>
         </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Zasięg (w metrach)</label>
+            <input md-input type="number" ng-model="SearchRange" required>
+        </md-input-container>
         <md-button class="md-raised md primary" ng-click="SaveChanges()">Zapisz</md-button>
     </md-content>
 </div>

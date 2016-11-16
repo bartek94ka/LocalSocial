@@ -42,6 +42,16 @@
         });
         return resp;
     };
+    this.getPostsFromRange = function (data) {
+        console.log(data)
+        var resp = $http({
+            url: "/api/posts/inrange",
+            method: "POST",
+            data: { Longitude: data.Longitude, Latitude: data.Latitude },
+            headers: { 'Content-Type': 'application/json' }
+        });
+        return resp;
+    };
     this.getAll = function () {
         var resp = $http.get('api/posts/all');
         return resp;

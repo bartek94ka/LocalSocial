@@ -3,7 +3,7 @@
         var resp = $http({
             url: "/api/users",
             method: "PUT",
-            data: { Name: data.Name, Surname: data.Surname },
+            data: { Name: data.Name, Surname: data.Surname, SearchRange: data.SearchRange },
             //data: { Name: data.Name, Surname: data.Surname, OldPassword: data.OldPassword, NewPassword: data.NewPassword },
             headers: { 'Content-Type': 'application/json' }
         });
