@@ -1,10 +1,7 @@
-﻿var MenuController = function ($rootScope, $scope, $mdSidenav) {
+﻿var MenuController = function ($rootScope, $scope, $mdSidenav, $localStorage) {
     this.items = [];
-    if ($rootScope.IsUserLogged === false) {
-        this.items.push(MenuItem("Strona główna", "#/", "home"));
-        this.items.push(MenuItem("Logowanie", "/", "home"));
-        this.items.push(MenuItem("Rejestracja", "/", "home"));
-    } else{
+    console.log($localStorage.IsLogged);
+    if ($localStorage.IsLogged === true) {
         this.items.push(MenuItem("Strona główna", "#/", "home"));
         this.items.push(MenuItem("Znajomi", "/friends", "group"));
         this.items.push(MenuItem("Moje posty", "#/myposts", "note"));
@@ -12,6 +9,10 @@
         this.items.push(MenuItem("Zmiana zasięgu", "#/range", "gps_fixed"));
         this.items.push(MenuItem("Ustawienia konta", "#/settings", "settings"));
         this.items.push(MenuItem("Wyloguj się", "/", "power_settings_new"));
+    } else {
+        this.items.push(MenuItem("Strona główna", "#/", "home"));
+        this.items.push(MenuItem("Logowanie", "#/login", "home"));
+        this.items.push(MenuItem("Rejestracja", "#/register", "home"));
     }
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();

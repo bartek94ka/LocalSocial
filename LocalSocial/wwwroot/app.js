@@ -1,20 +1,13 @@
 ﻿(function($scope) {
     'use strict'
-    var app = angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngCookies', 'ngMessages']);
+    var app = angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngCookies', 'ngMessages', 'ngStorage']);
 
-    //app.constructor(Auth, $state)
-    //{
-    //    this.Auth = Auth;
-    //    this.$state = $state;
-    //};
 
     SessionService.$inject = ['$http', '$cookies'];
     app.service('SessionService', SessionService);
     PostService.$inject = ['$http'];
     app.service('PostService', PostService);
     app.service('UserService', UserService);
-    //LocationService.$inject = ['$window'];
-    //app.service('LocationService', LocationService);
     UserService.$inject = ['$http'];
     
 
@@ -24,7 +17,6 @@
     app.controller('SessionController', SessionController);
     app.controller('PostController', PostController);
     app.controller('UserController', UserController);
-    //app.controller('LocationController', LocationController);
     
     app.config(function ($routeProvider) {
         
@@ -52,6 +44,10 @@
             .when('/login',
             {
                 templateUrl: 'Views/Login/index.html'
+            })
+            .when('/register',
+            {
+                templateUrl: 'Views/Register/index.html'
             })
             .when('/settings',
             {

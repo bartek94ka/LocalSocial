@@ -8,22 +8,25 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
+using Microsoft.Extensions.Logging;
 
 [Route("api/[controller]")]
 public class AccountController : Controller
 {
-
-    //1
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    //1
-    public AccountController(UserManager<User> userManager,
-            SignInManager<User> signInManager)
+    private readonly ILogger _logger;
+
+    public AccountController(
+        UserManager<User> userManager,
+        SignInManager<User> signInManager,
+        ILoggerFactory loggerFactory)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _logger = loggerFactory.CreateLogger<AccountController>();
     }
-
+    //
     // POST: /Account/Login
     [Route("login")]
     [HttpPost]
@@ -39,6 +42,7 @@ public class AccountController : Controller
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
+                _logger.LogInformation(1, "User logged in.");
                 //return RedirectToLocal(returnUrl);
                 return Ok();
             }
@@ -48,6 +52,7 @@ public class AccountController : Controller
             //}
             if (result.IsLockedOut)
             {
+                _logger.LogWarning(2, "User account locked out.");
                 return View("Lockout");
             }
             else
@@ -82,8 +87,10 @@ public class AccountController : Controller
                 //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                 //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                 await _signInManager.SignInAsync(user, isPersistent: false);
+                _logger.LogInformation(3, "User created a new account with password.");
                 return Ok();
             }
+            AddErrors(result);
         }
 
         // If we got this far, something failed, redisplay form
@@ -98,6 +105,36 @@ public class AccountController : Controller
     public async Task<IActionResult> LogOff()
     {
         await _signInManager.SignOutAsync();
+        _logger.LogInformation(4, "User logged out.");
         return Ok();
     }
+
+    #region Helpers
+
+    private void AddErrors(IdentityResult result)
+    {
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+    }
+
+    private async Task<User> GetCurrentUserAsync()
+    {
+        return await _userManager.FindByIdAsync(HttpContext.User.GetUserId());
+    }
+
+    private IActionResult RedirectToLocal(string returnUrl)
+    {
+        if (Url.IsLocalUrl(returnUrl))
+        {
+            return Redirect(returnUrl);
+        }
+        else
+        {
+            return RedirectToAction("");
+        }
+    }
+
+    #endregion
 }

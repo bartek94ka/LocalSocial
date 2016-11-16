@@ -3,7 +3,7 @@ var SessionService = function ($http) {
 
     this.register = function (userInfo) {
         var resp = $http({
-            url: "/api/test/register",
+            url: "/api/account/register",
             method: "POST",
             data: { Email: userInfo.Email, Password: userInfo.Password, ConfirmPassword: userInfo.ConfirmPassword },
             headers: { 'Content-Type': 'application/json' },
@@ -14,7 +14,7 @@ var SessionService = function ($http) {
     this.login = function (userlogin) {
 
         var resp = $http({
-            url: "/api/test/login",
+            url: "/api/account/login",
             method: "POST",
             data: { Email: userlogin.Email, Password: userlogin.Password },
             headers: { 'Content-Type': 'application/json' },
@@ -24,7 +24,7 @@ var SessionService = function ($http) {
 
     this.logoff = function ($cookieStore) {
         var resp = $http({
-            url: "/api/test/logoff",
+            url: "/api/account/logoff",
             method: "POST",
         });
     }
