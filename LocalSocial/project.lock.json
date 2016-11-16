@@ -126,6 +126,15 @@
           "lib/dnx451/EntityFramework.Relational.Design.dll": {}
         }
       },
+      "Geolocation/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/Geolocation.dll": {}
+        },
+        "runtime": {
+          "lib/Geolocation.dll": {}
+        }
+      },
       "Ix-Async/1.2.5": {
         "type": "package",
         "frameworkAssemblies": [
@@ -2327,6 +2336,15 @@
         },
         "runtime": {
           "lib/dnx451/EntityFramework.Relational.Design.dll": {}
+        }
+      },
+      "Geolocation/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/Geolocation.dll": {}
+        },
+        "runtime": {
+          "lib/Geolocation.dll": {}
         }
       },
       "Ix-Async/1.2.5": {
@@ -4535,6 +4553,15 @@
           "lib/dnx451/EntityFramework.Relational.Design.dll": {}
         }
       },
+      "Geolocation/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/Geolocation.dll": {}
+        },
+        "runtime": {
+          "lib/Geolocation.dll": {}
+        }
+      },
       "Ix-Async/1.2.5": {
         "type": "package",
         "frameworkAssemblies": [
@@ -6712,6 +6739,17 @@
         "lib/net451/EntityFramework.Relational.Design.dll",
         "lib/net451/EntityFramework.Relational.Design.xml",
         "lib/netcore50/_._"
+      ]
+    },
+    "Geolocation/1.0.0": {
+      "type": "package",
+      "sha512": "zyskwvL0TfOU0ZAaLLYjU8bK+lHCD05LbWKBYF+0KLLOlo/Z8nj9IQD9+AhJySvTrDNYEnHIl2vDnWgvWIZcYg==",
+      "files": [
+        "Geolocation.1.0.0.nupkg",
+        "Geolocation.1.0.0.nupkg.sha512",
+        "Geolocation.nuspec",
+        "lib/Geolocation.dll",
+        "lib/Geolocation.pdb"
       ]
     },
     "Ix-Async/1.2.5": {
@@ -8995,7 +9033,8 @@
       "Microsoft.Extensions.Logging >= 1.0.0-rc1-final",
       "Microsoft.Extensions.Logging.Console >= 1.0.0-rc1-final",
       "Microsoft.Extensions.Logging.Debug >= 1.0.0-rc1-final",
-      "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0-rc1-final"
+      "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0-rc1-final",
+      "Geolocation >= 1.0.0"
     ],
     "DNX,Version=v4.5.1": []
   }

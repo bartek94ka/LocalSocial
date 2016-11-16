@@ -10,6 +10,7 @@ using LocalSocial;
 using LocalSocial.Models;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
+using Geolocation;
 
 namespace LocalSocial.Controllers
 {
@@ -23,6 +24,32 @@ namespace LocalSocial.Controllers
         {
             _context = context;
             _userManager = userManager;
+        }
+        [Route("inrange")]
+        [HttpPost]
+        [Authorize]
+        public async Task<IEnumerable<Post>> GetPostsInRange([FromBody] Location model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = HttpContext.User.GetUserId();
+                var user = _context.User.FirstOrDefault(x => x.Id == userId);
+                //CoordinateBoundaries boundaries = new CoordinateBoundaries(model.Latitude, model.Longitude, user.SearchRange/1.6);
+                //var posts = _context.Post.AsQueryable();
+                //var result = posts.Where(
+                //        x => x.Latitude >= boundaries.MinLatitude && x.Latitude <= boundaries.MaxLatitude)
+                //    .Where(x => x.Longitude >= boundaries.MinLongitude && x.Longitude <= boundaries.MaxLongitude);
+                //range - dystans w kilometrach
+                //GeoCalculation.GetDistance(...) - zwraca dystans w milach => 1 mila = 1.6 km
+                var result = (from p in _context.Post
+                    let range = user.SearchRange/100
+                    where
+                    range >=
+                    GeoCalculator.GetDistance(model.Latitude, model.Longitude, p.Latitude, p.Longitude, 5)/1.6
+                    select p);
+                return result;
+            }
+            return null;
         }
         [Route("add")]
         [HttpPost]

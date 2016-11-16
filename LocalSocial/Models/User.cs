@@ -18,7 +18,7 @@ namespace LocalSocial.Models
         }
         public string Name { get; set; }
         public string Surname { get; set; }
-
+        public float SearchRange { get; set; }
 
         public virtual ICollection<Post> Posts { get; private set; }
         //public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
@@ -44,5 +44,6 @@ namespace LocalSocial.Models
         public string OldPassword { get; set; }
         public string NewPassword { get; set; }
         public string ConfirmPassword { get; set; }
-    };
+        public float SearchRange { get; set; }
+    }
 }
