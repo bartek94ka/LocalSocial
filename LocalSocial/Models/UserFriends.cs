@@ -9,15 +9,9 @@ namespace LocalSocial.Models
 {
     public class UserFriends
     {
-        public UserFriends(string userId)
-        {
-            Friends = new HashSet<User>();
-            UserId = userId;
-        }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
-        public int Id { get; set; }
-        public string UserId { get; private set; }
-        public virtual ICollection<User> Friends { get; private set; }
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        [ForeignKey("User2")]
+        public string FriendId { get; set; }
     }
 }

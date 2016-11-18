@@ -18,7 +18,7 @@ namespace LocalSocial
         public DbSet<Post> Post { get; set; }
         public DbSet<User> User { get; set; }
         
-        public DbSet<UserFriends> Friend { get; set; }
+        public DbSet<UserFriends> UserFriends { get; set; }
         public DbSet<Comment> Comment { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -26,7 +26,20 @@ namespace LocalSocial
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<UserFriends>().HasKey(x => new { x.UserId, x.FriendId });
+
+            //modelBuilder.Entity<UserFriends>()
+            //    .HasOne(pc => pc.user)
+            //    .WithMany(p => p.Friends)
+            //    .HasForeignKey(pc => pc.FriendId);
+
+            //modelBuilder.Entity<UserFriends>()
+            //    .HasOne(pc => pc.friend)
+            //    .WithMany(c => c.Friends)
+            //    .HasForeignKey(pc => pc.UserId);
+
             base.OnModelCreating(modelBuilder);
+
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }

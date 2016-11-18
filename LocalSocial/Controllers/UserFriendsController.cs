@@ -24,19 +24,25 @@ namespace LocalSocial.Controllers
             _context = context;
             _userManager = userManager;
         }
-        //[Route("friends")]
-        //[HttpPost]
-        //[Authorize]
-        //public async Task<IEnumerable<User>> GetFriends()
-        //{
-        //    var userId = HttpContext.User.GetUserId();
-        //    var user = _context.User.FirstOrDefault(x => x.Id == userId);
-        //    return user.Friends.Friends.AsEnumerable();
-        //}
-        [Route("friends")]
+        [Route("myfriends")]
+        [HttpGet]
+        [Authorize]
+        public async Task<IEnumerable<User>> GetFriends()
+        {
+            var userId = HttpContext.User.GetUserId();
+            var user = _context.User.First(x => x.Id == userId);
+            var entity = (from uf in _context.UserFriends
+                join us in _context.User on uf.FriendId equals us.Id
+                where uf.UserId == userId
+                select us).AsEnumerable();
+            //var entity = _context.Friend.FirstOrDefault(x=>x.UserId == userId);
+
+            return entity.OrderBy(x=>x.Name);
+        }
+        [Route("find")]
         [HttpPost]
         [Authorize]
-        public async Task<IEnumerable<User>> FindFriends(UserBindingModel model)
+        public async Task<IEnumerable<User>> FindFriends([FromBody] UserBindingModel model)
         {
             if (ModelState.IsValid)
             {
@@ -46,48 +52,58 @@ namespace LocalSocial.Controllers
                 var friends = (from u in _context.User
                                where u.Id != userId
                                select u);
+                friends =
+                    friends.Where(x => x.Name == model.Name || x.Surname == model.Surname || x.Email == model.Email);
                 return friends.AsEnumerable();
             }
             return null;
         }
         //[Route("addfriend/{UserId:string}")]
-        [Route("addfriend")]
+        [Route("add")]
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> AddFriend(string UserId)
+        public async Task<IActionResult> AddFriend([FromBody] UserBindingModel model)
         {
             if (ModelState.IsValid)
             {
                 var userId = HttpContext.User.GetUserId();
                 var user = _context.User.FirstOrDefault(x => x.Id == userId);
-                var friend = _context.User.FirstOrDefault(x => x.Id == UserId);
+                var friend = _context.User.FirstOrDefault(x => x.Id == model.Id);
                 if (user != null && friend != null)
                 {
-                    user.Friends.Friends.Add(friend);
+                    _context.UserFriends.Add(new UserFriends()
+                    {
+                        FriendId = friend.Id,
+                        UserId = user.Id
+                    });
                 }
                 await _context.SaveChangesAsync();
                 return Ok();
             }
             return HttpBadRequest();
         }
-        //[Route("removefriend/{Id:string}")]
-        //[HttpPost]
-        //[Authorize]
-        //public async Task<IActionResult> RemoveFriend(string Id)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var userId = HttpContext.User.GetUserId();
-        //        var user = _context.User.FirstOrDefault(x => x.Id == userId);
-        //        var friend = _context.User.FirstOrDefault(x => x.Id == Id);
-        //        if (user != null && friend != null)
-        //        {
-        //            user.Friends.Friends.Remove(friend);
-        //        }
-        //        await _context.SaveChangesAsync();
-        //        return Ok();
-        //    }
-        //    return HttpBadRequest();
-        //}
+        [Route("remove")]
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> RemoveFriend([FromBody] UserBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = HttpContext.User.GetUserId();
+                var user = _context.User.FirstOrDefault(x => x.Id == userId);
+                //var friend = _context.User.FirstOrDefault(x => x.Id == UserId);
+                if (user != null)
+                {
+                    var userfriend =
+                        _context.UserFriends.FirstOrDefault(x => x.UserId == userId && x.FriendId == model.Id);
+                    _context.UserFriends.Remove(userfriend);
+                    //user.Friends.Remove(friend);
+                    //user.Friends.Friends.Remove(friend);
+                }
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return HttpBadRequest();
+        }
     }
 }

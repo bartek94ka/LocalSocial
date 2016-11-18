@@ -8,9 +8,10 @@ using LocalSocial;
 namespace LocalSocial.Migrations
 {
     [DbContext(typeof(LocalSocialContext))]
-    partial class LocalSocialContextModelSnapshot : ModelSnapshot
+    [Migration("20161118191143_correct5")]
+    partial class correct5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -112,7 +113,7 @@ namespace LocalSocial.Migrations
 
                     b.Property<string>("FriendId");
 
-                    b.HasKey("UserId", "FriendId");
+                    b.HasKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRole", b =>
@@ -215,7 +216,7 @@ namespace LocalSocial.Migrations
                 {
                     b.HasOne("LocalSocial.Models.User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("FriendId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>

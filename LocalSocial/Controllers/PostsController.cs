@@ -66,7 +66,7 @@ namespace LocalSocial.Controllers
                         AddDate = DateTime.Now,
                         Latitude = model.Latitude,
                         Longitude = model.Longitude,
-                        UserId = HttpContext.User.GetUserId()
+                        _UserId = HttpContext.User.GetUserId()
                     });
                 await _context.SaveChangesAsync();
                 return Ok();
@@ -152,7 +152,7 @@ namespace LocalSocial.Controllers
         public async Task<IEnumerable<Post>> GetMyPosts()
         {
             var userId = HttpContext.User.GetUserId();
-            var posts = _context.Post.AsQueryable().Where(x => x.UserId == userId);
+            var posts = _context.Post.AsQueryable().Where(x => x._UserId == userId);
             return posts;
         }
     }

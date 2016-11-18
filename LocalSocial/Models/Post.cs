@@ -20,9 +20,11 @@ namespace LocalSocial.Models
         public string Description { get; set; }
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime AddDate { get; set; }
-        public string UserId { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }
+        [ForeignKey("User")]
+        public string _UserId { get; set; }
+        public virtual User user { get; set; }
         public virtual ICollection<Comment> Comments { get; private set; }
     }
     public class PostBindingModel

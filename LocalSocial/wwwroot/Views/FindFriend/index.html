@@ -4,18 +4,29 @@
             <!-- Use floating label instead of placeholder -->
             <label>Imię</label>
             <md-icon class="material-icons">perm_identity</md-icon>
-            <input ng-model="user.name" type="text">
+            <input ng-model="user.Name" type="text">
         </md-input-container>
 
-        <md-input-container md-no-float class="md-block">
+        <md-input-container class="md-block">
             <md-icon class="material-icons">perm_identity</md-icon>
-            <input ng-model="user.phone" type="text" placeholder="Nazwisko">
+            <input ng-model="user.Surname" type="text" placeholder="Nazwisko">
         </md-input-container>
 
         <md-input-container class="md-block">
             <md-icon class="material-icons">email</md-icon>
-            <input ng-model="user.email" type="email" placeholder="Email">
+            <input ng-model="user.Email" type="email" placeholder="Email">
         </md-input-container>
-
+        <md-button class="md-raised md primary" ng-click="findFriend()">
+            <md-icon class="material-icons">search</md-icon>
+            Wyszukaj
+        </md-button>
+        <md-divider></md-divider>
+        <md-list>
+            <md-subheader class="md-no-sticky">Avatar with Secondary Action Icon</md-subheader>
+            <md-list-item ng-repeat="user in users" class="noright">
+                <p>{{user.Name}} {{user.Surname}}</p>
+                <md-icon class="material-icons" ng-click="addFriend(user)" layout-align="right" aria-label="Dodaj do znajomych">person_add</md-icon>
+            </md-list-item>
+        </md-list>
     </md-content>
 </div>

@@ -8,9 +8,10 @@ using LocalSocial;
 namespace LocalSocial.Migrations
 {
     [DbContext(typeof(LocalSocialContext))]
-    partial class LocalSocialContextModelSnapshot : ModelSnapshot
+    [Migration("20161118175436_correct4")]
+    partial class correct4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -45,9 +46,7 @@ namespace LocalSocial.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<string>("_UserId");
-
-                    b.Property<string>("userId");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
                 });
@@ -92,6 +91,8 @@ namespace LocalSocial.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
+                    b.Property<string>("UserId");
+
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
 
@@ -104,15 +105,6 @@ namespace LocalSocial.Migrations
                         .HasAnnotation("Relational:Name", "UserNameIndex");
 
                     b.HasAnnotation("Relational:TableName", "AspNetUsers");
-                });
-
-            modelBuilder.Entity("LocalSocial.Models.UserFriends", b =>
-                {
-                    b.Property<string>("UserId");
-
-                    b.Property<string>("FriendId");
-
-                    b.HasKey("UserId", "FriendId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRole", b =>
@@ -208,10 +200,10 @@ namespace LocalSocial.Migrations
                 {
                     b.HasOne("LocalSocial.Models.User")
                         .WithMany()
-                        .HasForeignKey("userId");
+                        .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("LocalSocial.Models.UserFriends", b =>
+            modelBuilder.Entity("LocalSocial.Models.User", b =>
                 {
                     b.HasOne("LocalSocial.Models.User")
                         .WithMany()

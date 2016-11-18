@@ -15,29 +15,20 @@ namespace LocalSocial.Models
         public User()
         {
             this.Posts = new HashSet<Post>();
-            this.Friends = new UserFriends(Id);
+            this.Friends = new HashSet<UserFriends>();
+            //this.Friends = new HashSet<User>();
+            //this.Users = new HashSet<User>();
+
         }
         public string Name { get; set; }
         public string Surname { get; set; }
         public float SearchRange { get; set; }
 
         public virtual ICollection<Post> Posts { get; private set; }
-        public virtual UserFriends Friends { get; private set; }
-        //public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
-        //{
-        //    // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-        //    var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-        //    // Add custom user claims here
-        //    return userIdentity;
-        //}
+        public virtual ICollection<UserFriends> Friends { get; private set; }
+        //public virtual ICollection<User> Friends { get; private set; }
+        //public virtual ICollection<User> Users { get; private set; }
 
-        //public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager, string authenticationType)
-        //{
-        //    // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-        //    var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
-        //    // Add custom user claims here
-        //    return userIdentity;
-        //}
     }
     public class UserBindingModel
     {
@@ -48,5 +39,6 @@ namespace LocalSocial.Models
         public string ConfirmPassword { get; set; }
         public float SearchRange { get; set; }
         public string Email { get; set; }
+        public string Id { get; set; }
     }
 }
