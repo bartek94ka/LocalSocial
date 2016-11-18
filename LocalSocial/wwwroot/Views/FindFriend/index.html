@@ -1,0 +1,21 @@
+﻿<div  layout="row" layout-align="center center" ng-controller="FriendController">
+    <md-content class="md-no-momentum">
+        <md-input-container class="md-icon-float md-block">
+            <!-- Use floating label instead of placeholder -->
+            <label>Imię</label>
+            <md-icon class="material-icons">perm_identity</md-icon>
+            <input ng-model="user.name" type="text">
+        </md-input-container>
+
+        <md-input-container md-no-float class="md-block">
+            <md-icon class="material-icons">perm_identity</md-icon>
+            <input ng-model="user.phone" type="text" placeholder="Nazwisko">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+            <md-icon class="material-icons">email</md-icon>
+            <input ng-model="user.email" type="email" placeholder="Email">
+        </md-input-container>
+
+    </md-content>
+</div>

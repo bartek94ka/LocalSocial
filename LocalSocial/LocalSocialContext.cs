@@ -17,6 +17,9 @@ namespace LocalSocial
 
         public DbSet<Post> Post { get; set; }
         public DbSet<User> User { get; set; }
+        
+        public DbSet<UserFriends> Friend { get; set; }
+        public DbSet<Comment> Comment { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseSqlServer("Server=tcp:poznan.database.windows.net,1433;Initial Catalog=LocalSocial;Persist Security Info=False;User ID=poznan;Password=Kaczka1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");

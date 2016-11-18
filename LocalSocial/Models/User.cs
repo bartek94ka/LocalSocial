@@ -15,12 +15,14 @@ namespace LocalSocial.Models
         public User()
         {
             this.Posts = new HashSet<Post>();
+            this.Friends = new UserFriends(Id);
         }
         public string Name { get; set; }
         public string Surname { get; set; }
         public float SearchRange { get; set; }
 
         public virtual ICollection<Post> Posts { get; private set; }
+        public virtual UserFriends Friends { get; private set; }
         //public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         //{
         //    // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -45,5 +47,6 @@ namespace LocalSocial.Models
         public string NewPassword { get; set; }
         public string ConfirmPassword { get; set; }
         public float SearchRange { get; set; }
+        public string Email { get; set; }
     }
 }

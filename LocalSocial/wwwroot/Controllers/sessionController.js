@@ -8,10 +8,11 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
     $scope.ConfirmPassword = "";
 
     //Function to logout user
-    $scope.logoff = function () {
-        var promiselogoff = SessionService.logoff();
+    $scope.logout = function () {
+        var promiselogoff = SessionService.logout();
         $localStorage.$reset();
-        window.location.href = "#/home";
+        window.location.href = "#/";
+        window.location.reload();
     };
     $scope.login = function () {
         //This is the information to pass for token based authentication
@@ -27,9 +28,11 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
             $scope.Email = resp.data.Email;
             $localStorage.IsLogged = true;
             window.location.href = "#/myposts";
+            //window.location.reload();
         }, function (err) {
             $scope.response = "Error " + err.status;
-            $localStorage.IsLogged = false;
+            console.log('error');
+            console.log(promiselogin);
         });
         //window.location.href = "https://www.google.pl/";
     };
@@ -52,10 +55,12 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
             $scope.Email = resp.data.Email;
             $localStorage.IsLogged = true;
             window.location.href = "#/myposts";
+            window.location.reload();
         }, function (err) {
 
             $scope.response = "Error " + err.status;
-            $localStorage.IsLogged = false;
+            console.log('error');
+            console.log(promiseregister.login);
         });
     };
 };

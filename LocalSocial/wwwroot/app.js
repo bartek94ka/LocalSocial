@@ -9,6 +9,8 @@
     app.service('PostService', PostService);
     app.service('UserService', UserService);
     UserService.$inject = ['$http'];
+    FriendService.$inject = ['$http'];
+    app.service('FriendService', FriendService);
     
 
     app.controller('AppCtrl', SideNavController);
@@ -16,10 +18,14 @@
     app.controller('SessionController', SessionController);
     app.controller('PostController', PostController);
     app.controller('UserController', UserController);
-    
+    app.controller('FriendController', FriendController);
+
     app.config(function ($routeProvider) {
-        
         $routeProvider
+            .when('/addcomment',
+            {
+                templateUrl: 'Views/AddComment/index.html'
+            })
             .when('/addpost',
             {
                 templateUrl: 'Views/AddPost/index.html'
@@ -36,6 +42,18 @@
                 controller: 'PostController',
                 resolve: PostController.GetMyPosts
             })
+            .when('/findfriend',
+            {
+                templateUrl: 'Views/FindFriend/index.html'
+            })
+            .when('/friends',
+            {
+                templateUrl: 'Views/Friends/index.html'
+            })
+            .when('/friendsposts',
+            {
+                templateUrl: 'Views/FriendsPosts/index.html'
+            })
             .when('/range',
             {
                 templateUrl: 'Views/UserLocation/index.html'
@@ -48,15 +66,17 @@
             {
                 templateUrl: 'Views/Register/index.html'
             })
+            .when('/logout',
+            {
+                templateUrl: 'Views/Logout/index.html'
+            })
             .when('/settings',
             {
                 templateUrl: 'Views/Settings/index.html'
             })
             .when('/',
             {
-                templateUrl: 'Views/Home/index.html',
-                controller: 'PostController',
-                resolve: PostController.GetLocation
+                templateUrl: 'Views/Home/index.html'
             })
             .when('/home',
             {

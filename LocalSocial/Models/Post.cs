@@ -11,7 +11,7 @@ namespace LocalSocial.Models
     {
         public Post()
         {
-            //this.Tags = new HashSet<Tag>();
+            this.Comments = new HashSet<Comment>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -23,6 +23,7 @@ namespace LocalSocial.Models
         public string UserId { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }
+        public virtual ICollection<Comment> Comments { get; private set; }
     }
     public class PostBindingModel
     {

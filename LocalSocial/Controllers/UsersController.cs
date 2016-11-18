@@ -43,12 +43,15 @@ namespace LocalSocial.Controllers
             {
                 var userId = HttpContext.User.GetUserId();
                 var user = _context.User.FirstOrDefault(x => x.Id == userId);
-                user.Name = model.Name;
-                user.Surname = model.Surname;
-                user.SearchRange = model.SearchRange;
-                //await _userManager.ChangePasswordAsync(User, model.OldPassword, model.NewPassword);
-                await _context.SaveChangesAsync();
-                return Ok();
+                if (user != null)
+                {
+                    user.Name = model.Name;
+                    user.Surname = model.Surname;
+                    user.SearchRange = model.SearchRange;
+                    //await _userManager.ChangePasswordAsync(User, model.OldPassword, model.NewPassword);
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
             }
             return HttpBadRequest();
         }

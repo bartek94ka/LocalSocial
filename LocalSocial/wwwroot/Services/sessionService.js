@@ -22,7 +22,7 @@ var SessionService = function ($http) {
         return resp;
     };
 
-    this.logoff = function ($cookieStore) {
+    this.logout = function ($cookieStore) {
         var resp = $http({
             url: "/api/account/logoff",
             method: "POST",

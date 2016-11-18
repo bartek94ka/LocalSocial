@@ -101,6 +101,7 @@ public class AccountController : Controller
     // POST: /Account/LogOff
     [Route("logoff")]
     [HttpPost]
+    [Authorize]
     //[ValidateAntiForgeryToken]
     public async Task<IActionResult> LogOff()
     {

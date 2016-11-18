@@ -51,7 +51,7 @@
             });
     };
     $scope.GetMyPosts = function () {
-
+        
         var promiseMyPost = PostService.getMyPost();
 
         promiseMyPost.then(function (resp) {
