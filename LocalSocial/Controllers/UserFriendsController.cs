@@ -24,20 +24,33 @@ namespace LocalSocial.Controllers
             _context = context;
             _userManager = userManager;
         }
+        [Route("posts")]
+        [HttpGet]
+        [Authorize]
+        public async Task<IEnumerable<Post>> GetMyFriendsPosts()
+        {
+            var userId = HttpContext.User.GetUserId();
+            var posts = (from p in _context.Post
+                          join uf in _context.UserFriends on p._UserId equals uf.FriendId
+                          where uf.UserId == userId
+                          orderby p.AddDate descending 
+                          select p).AsEnumerable();
+            
+            return posts;
+        }
         [Route("myfriends")]
         [HttpGet]
         [Authorize]
         public async Task<IEnumerable<User>> GetFriends()
         {
             var userId = HttpContext.User.GetUserId();
-            var user = _context.User.First(x => x.Id == userId);
             var entity = (from uf in _context.UserFriends
                 join us in _context.User on uf.FriendId equals us.Id
                 where uf.UserId == userId
                 select us).AsEnumerable();
             //var entity = _context.Friend.FirstOrDefault(x=>x.UserId == userId);
 
-            return entity.OrderBy(x=>x.Name);
+            return entity;
         }
         [Route("find")]
         [HttpPost]

@@ -2,6 +2,8 @@
 
     $scope.users = [];
 
+    $scope.userPosts = [];
+
     $scope.user = {
         Name: '',
         Surname: '',
@@ -46,5 +48,15 @@
             function(err) {
                 console.log('error');
             });
+    };
+    $scope.getMyFriendsPosts = function() {
+        var promisePosts = FriendService.GetMyFriendsPosts();
+
+        promisePosts.then(function(resp) {
+            $scope.userPosts = resp.data;
+            console.log(resp.data);
+        },function(err) {
+            console.log('blad w getmyfriendsposts');
+        });
     };
 };

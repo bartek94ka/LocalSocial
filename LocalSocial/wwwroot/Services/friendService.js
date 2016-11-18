@@ -37,4 +37,12 @@
         });
         return resp;
     };
+    this.GetMyFriendsPosts = function() {
+        var resp = $http({
+            url: "/api/userfriends/posts",
+            method: "GET",
+            headers: { 'Content-Type': 'application/json' }
+        });
+        return resp;
+    };
 };

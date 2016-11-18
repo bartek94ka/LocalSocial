@@ -1,10 +1,16 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+﻿<div layout="row" layout-align="center center" ng-controller="FriendController" ng-init="getMyFriendsPosts()">
+    <ul align-items:center flex-gt-xs="50" layout-margin>
+        <md-card class="card" ng-repeat="item in userPosts">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{item.Title}}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>
+                    {{item.Description}}
+                </p>
+            </md-card-content>
+        </md-card>
+    </ul>
+</div>
