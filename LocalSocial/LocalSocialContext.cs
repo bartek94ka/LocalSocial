@@ -17,9 +17,12 @@ namespace LocalSocial
 
         public DbSet<Post> Post { get; set; }
         public DbSet<User> User { get; set; }
-        
-        public DbSet<UserFriends> UserFriends { get; set; }
         public DbSet<Comment> Comment { get; set; }
+        public DbSet<Tag> Tag { get; set; }
+        public DbSet<UserFriends> UserFriends { get; set; }
+        public DbSet<PostTags> PostTags { get; set; }
+        
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseSqlServer("Server=tcp:poznan.database.windows.net,1433;Initial Catalog=LocalSocial;Persist Security Info=False;User ID=poznan;Password=Kaczka1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -27,6 +30,8 @@ namespace LocalSocial
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserFriends>().HasKey(x => new { x.UserId, x.FriendId });
+
+            modelBuilder.Entity<PostTags>().HasKey(x => new { x.PostId, x.TagId });
 
             //modelBuilder.Entity<UserFriends>()
             //    .HasOne(pc => pc.user)

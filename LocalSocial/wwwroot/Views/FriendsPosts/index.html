@@ -1,6 +1,15 @@
 ﻿<div layout="row" layout-align="center center" ng-controller="FriendController" ng-init="getMyFriendsPosts()">
     <ul align-items:center flex-gt-xs="50" layout-margin>
-        <md-card class="card" ng-repeat="item in userPosts">
+        <md-card class="card" ng-repeat="item in userPosts" style="background: #f3f2f2">
+            <md-card-header>
+                <md-card-avatar>
+                    <img class="md-user-avatar" src="" />
+                </md-card-avatar>
+                <md-card-header-text>
+                    <span class="md-title">User</span>
+                    <span class="md-subhead">inna dana</span>
+                </md-card-header-text>
+            </md-card-header>
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline">{{item.Title}}</span>
@@ -10,6 +19,11 @@
                 <p>
                     {{item.Description}}
                 </p>
+                <md-input-container class="md-block" layout="row" layout-align="start center">
+                    <textarea ng-model="post.description" rows="1" md-select-on-focus style="background: white"></textarea>
+                    <md-button ng-click="">Dodaj</md-button>
+                    <md-button href="#/posts/{{item.Id}}">Szczegóły</md-button>
+                </md-input-container>
             </md-card-content>
         </md-card>
     </ul>

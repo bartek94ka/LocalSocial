@@ -76,11 +76,12 @@
             })
             .when('/',
             {
-                templateUrl: 'Views/Home/index.html'
+                //templateUrl: 'Views/Home/index.html'
+                templateUrl: 'Views/PostsFromWound/index.html'
             })
             .when('/home',
             {
-                templateUrl: 'Views/Home/index.html'
+                templateUrl: 'Views/PostsFromWound/index.html'
             })
             .otherwise({
                 redirectTo: '/home'

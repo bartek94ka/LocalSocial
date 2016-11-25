@@ -12,6 +12,7 @@ namespace LocalSocial.Models
         public Post()
         {
             this.Comments = new HashSet<Comment>();
+            this.PostTags = new HashSet<PostTags>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -26,6 +27,7 @@ namespace LocalSocial.Models
         public string _UserId { get; set; }
         public virtual User user { get; set; }
         public virtual ICollection<Comment> Comments { get; private set; }
+        public virtual ICollection<PostTags> PostTags { get; private set; }
     }
     public class PostBindingModel
     {

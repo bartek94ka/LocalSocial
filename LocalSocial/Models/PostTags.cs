@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace LocalSocial.Models
 {
-    public class Comment
+    public class PostTags
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
-        public int Id { get; set; }
-        public string Content { get; set; }
+        [ForeignKey("Post")]
         public int PostId { get; set; }
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        [ForeignKey("Tag")]
+        public int TagId { get; set; }
     }
 }
