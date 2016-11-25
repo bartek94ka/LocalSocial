@@ -14,7 +14,13 @@ namespace LocalSocial.Models
         public int Id { get; set; }
         public string Content { get; set; }
         public int PostId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public virtual User User { get; set; }
+    }
+    public class CommentBindingModel
+    {
+        [Required]
+        public string Content { get; set; }
+        public int PostId { get; set; }
     }
 }

@@ -8,9 +8,10 @@ using LocalSocial;
 namespace LocalSocial.Migrations
 {
     [DbContext(typeof(LocalSocialContext))]
-    partial class LocalSocialContextModelSnapshot : ModelSnapshot
+    [Migration("20161125144342_correct9")]
+    partial class correct9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")

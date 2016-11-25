@@ -29,8 +29,10 @@
             .when('/addpost',
             {
                 templateUrl: 'Views/AddPost/index.html'
-                //controller: 'postController',
-                //controllerAs: 'postCtrl'
+            })
+            .when('/posts/:postId',
+            {
+                templateUrl: 'Views/PostDetails/index.html'
             })
             .when('/editpost/:postId',
             {

@@ -1,4 +1,14 @@
 ﻿var PostService = function ($http) {
+    
+    this.addComment = function (data) {
+        var resp = $http({
+            url: "/api/comments/add",
+            method: "POST",
+            data: { Content: data.Content, PostId: data.PostId },
+            headers: { 'Content-Type': 'application/json' }
+        });
+        return resp;
+    };
 
     this.deletePost = function(id) {
         var resp = $http({

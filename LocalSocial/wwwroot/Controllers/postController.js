@@ -5,7 +5,12 @@
         title: '',
         description: '',
         Id: '',
+        Comments: [],
     };
+    $scope.comment = {
+        Content: '',
+        PostId: ''
+    }
     $scope.userPosts = [];
     $scope.GetLocation = function() {
         if (navigator.geolocation) {
@@ -72,6 +77,7 @@
 
             });
     };
+
     $scope.GetPost = function () {
         var promisePost = PostService.getPost($routeParams.postId);
 
@@ -79,6 +85,7 @@
                 $scope.post.title = resp.data.Title;
                 $scope.post.description = resp.data.Description;
                 $scope.post.Id = resp.data.Id;
+                $scope.post.Comments = resp.data.Comments;
             },
             function(err) {
 
@@ -112,6 +119,19 @@
             window.location.href = "#/myposts";
         }, function(err) {
             //message z bledem
+        });
+    };
+    $scope.AddComment = function () {
+        var commentData = {
+            Content: $scope.comment.Content,
+            PostId: $scope.comment.PostId,
+        }
+        var promiseComment = PostService.addComment(commentData)
+
+        promiseComment.then(function (resp) {
+            window.location.href = "#/posts/"  + $scope.comment.PostId;
+        }, function (err) {
+
         });
     };
 };
