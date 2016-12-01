@@ -3,7 +3,7 @@
     var app = angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngCookies', 'ngMessages', 'ngStorage']);
 
 
-    SessionService.$inject = ['$http', '$cookies'];
+    SessionService.$inject = ['$http', '$cookies', '$route'];
     app.service('SessionService', SessionService);
     PostService.$inject = ['$http'];
     app.service('PostService', PostService);

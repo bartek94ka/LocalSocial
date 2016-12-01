@@ -28,7 +28,7 @@ namespace LocalSocial.Controllers
         [Route("inrange")]
         [HttpPost]
         [Authorize]
-        public async Task<IEnumerable<Post>> GetPostsInRange([FromBody] Location model)
+        public IEnumerable<Post> GetPostsInRange([FromBody] Location model)
         {
             if (ModelState.IsValid)
             {
@@ -42,11 +42,12 @@ namespace LocalSocial.Controllers
                 //range - dystans w kilometrach
                 //GeoCalculation.GetDistance(...) - zwraca dystans w milach => 1 mila = 1.6 km
                 var result = (from p in _context.Post
-                    let range = user.SearchRange/1000
-                    where
-                    range >=
-                    GeoCalculator.GetDistance(model.Latitude, model.Longitude, p.Latitude, p.Longitude, 5)/1.6
-                    select p);
+                              let range = user.SearchRange / 1000
+                              where
+                              range >=
+                              GeoCalculator.GetDistance(model.Latitude, model.Longitude, p.Latitude, p.Longitude, 5) / 1.6
+                              select p);
+                //var result = _context.Post.Include(x => x.user).Where(x => x.user.SearchRange / 100 >= GeoCalculator.GetDistance(model.Latitude, model.Longitude, x.Latitude, x.Longitude, 5) / 1.6);
                 return result;
             }
             return null;
@@ -58,6 +59,8 @@ namespace LocalSocial.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = HttpContext.User.GetUserId();
+                var user = _context.User.FirstOrDefault(x => x.Id == userId);
                 _context.Post.Add(
                     new Post()
                     {
@@ -66,7 +69,9 @@ namespace LocalSocial.Controllers
                         AddDate = DateTime.Now,
                         Latitude = model.Latitude,
                         Longitude = model.Longitude,
-                        _UserId = HttpContext.User.GetUserId()
+                        _UserId = userId,
+                        user = user
+
                     });
                 await _context.SaveChangesAsync();
                 return Ok();
@@ -79,7 +84,7 @@ namespace LocalSocial.Controllers
         [Authorize]
         public async Task<IActionResult> GetPost(int Id)
         {
-            Post post = await _context.Post.FirstAsync(x => x.Id == Id);
+            Post post = await _context.Post.Include(x=>x.Comments).FirstAsync(x => x.Id == Id);
             if (post != null)
             {
                 return Ok(post);

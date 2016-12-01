@@ -1,5 +1,5 @@
 ﻿//2.
-var SessionController = function ($scope, $cookieStore, $rootScope, $localStorage, SessionService) {
+var SessionController = function ($scope, $cookieStore, $rootScope, $localStorage, $route, SessionService) {
     
     //my declarations
     $scope.response = "";
@@ -11,8 +11,8 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
     $scope.logout = function () {
         var promiselogoff = SessionService.logout();
         $localStorage.$reset();
-        window.location.href = "#/";
-        window.location.reload();
+        window.location.href = "#/login";
+        $route.reload();
     };
     $scope.login = function () {
         //This is the information to pass for token based authentication
