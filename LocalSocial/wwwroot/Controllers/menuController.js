@@ -1,6 +1,5 @@
 ﻿var MenuController = function ($rootScope, $scope, $mdSidenav, $localStorage) {
     this.items = [];
-    console.log($localStorage.IsLogged);
     if ($localStorage.IsLogged === true) {
         this.items.push(MenuItem("Strona główna", "#/", "home"));
         this.items.push(MenuItem("Znajdź znajomych", "#/findfriend", "group"));
@@ -15,6 +14,7 @@
         this.items.push(MenuItem("Logowanie", "#/login", "perm_identity"));
         this.items.push(MenuItem("Rejestracja", "#/register", "person_add"));
     }
+    console.log(this.items);
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
     };

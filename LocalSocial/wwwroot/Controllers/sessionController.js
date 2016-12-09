@@ -1,5 +1,5 @@
 ﻿//2.
-var SessionController = function ($scope, $cookieStore, $rootScope, $localStorage, $route, SessionService) {
+var SessionController = function ($scope, $cookieStore, $rootScope, $localStorage, $route, $window, SessionService) {
     
     //my declarations
     $scope.response = "";
@@ -12,7 +12,7 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
         var promiselogoff = SessionService.logout();
         $localStorage.$reset();
         window.location.href = "#/login";
-        $route.reload();
+        $window.location.reload();
     };
     $scope.login = function () {
         //This is the information to pass for token based authentication
@@ -27,7 +27,9 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
 
             $scope.Email = resp.data.Email;
             $localStorage.IsLogged = true;
+
             window.location.href = "#/myposts";
+            $window.location.reload();
             //window.location.reload();
         }, function (err) {
             $scope.response = "Error " + err.status;
@@ -55,6 +57,7 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
             $scope.Email = resp.data.Email;
             $localStorage.IsLogged = true;
             window.location.href = "#/myposts";
+            $window.location.reload();
         }, function (err) {
 
             $scope.response = "Error " + err.status;
