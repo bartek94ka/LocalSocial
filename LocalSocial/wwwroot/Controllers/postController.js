@@ -1,12 +1,15 @@
-﻿var PostController = function ($scope,$routeParams, PostService) {
+﻿var PostController = function ($scope,$routeParams, PostService, UserService) {
     $scope.Lat = null;
     $scope.Lng = null;
     $scope.post = {
+        userName: "",
+        userSurname: "",
         title: '',
         description: '',
         Id: '',
         Comments: [],
     };
+    $scope.UserId = "";
     $scope.comment = {
         Content: '',
         PostId: ''
@@ -80,15 +83,17 @@
 
     $scope.GetPost = function () {
         var promisePost = PostService.getPost($routeParams.postId);
-
+        
         promisePost.then(function(resp) {
                 $scope.post.title = resp.data.Title;
                 $scope.post.description = resp.data.Description;
                 $scope.post.Id = resp.data.Id;
                 $scope.post.Comments = resp.data.Comments;
+                $scope.post.userName = resp.data.user.Name;
+                $scope.post.userSurname = resp.data.user.Surname;
+                console.log(resp);
             },
             function(err) {
-
             });
     };
     $scope.SavePost = function () {

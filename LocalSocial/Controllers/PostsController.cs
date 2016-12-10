@@ -83,11 +83,15 @@ namespace LocalSocial.Controllers
         [Route("post/{Id:int}")]
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetPost(int Id)
+        public IActionResult GetPost(int Id)
         {
-            Post post = await _context.Post.Include(x=>x.Comments).FirstAsync(x => x.Id == Id);
-            if (post != null)
+            Post post =  _context.Post.Include(x=>x.Comments).First(x => x.Id == Id);
+            var user = (from us in _context.User
+                        where us.Id == post._UserId
+                        select new User { Name=us.Name, Surname=us.Surname, Email=us.Email });
+            if (user != null && post != null)
             {
+                post.user = user.FirstOrDefault();
                 return Ok(post);
             }
             return HttpBadRequest();

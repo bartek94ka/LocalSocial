@@ -2,6 +2,15 @@
     <md-content layout-padding>
         <div>
             <md-card class="card">
+                <md-card-header>
+                    <md-card-avatar>
+                        <img class="md-user-avatar" src="" />
+                    </md-card-avatar>
+                    <md-card-header-text>
+                        <span class="md-title">{{post.userName}} {{post.userSurname}}</span>
+                        <span class="md-subhead">{{post.AddDate | date:'yyyy-MM-dd HH:mm'}}</span>
+                    </md-card-header-text>
+                </md-card-header>
                 <md-card-title>
                     <md-card-title-text>
                         <span class="md-headline">{{post.title}}</span>
@@ -19,8 +28,7 @@
                     <md-divider></md-divider>
                     <md-list-item class="md-3-line" ng-repeat="item in post.Comments">
                         <div class="md-list-item-text">
-                            <h4>Jan Kowalski</h4>
-                            <h4>{{item.user.Name}}</h4>
+                            <h4>{{item.User.Name}} {{item.User.Surname}}</h4>
                             <p>{{item.Content}}</p>
                         </div>
                         <md-divider ng-if="!$last"></md-divider>
