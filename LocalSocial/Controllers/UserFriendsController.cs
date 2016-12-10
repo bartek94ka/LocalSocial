@@ -62,10 +62,14 @@ namespace LocalSocial.Controllers
                 var userId = HttpContext.User.GetUserId();
                 var user = _context.User.FirstOrDefault(x => x.Id == userId);
                 //wszyscy poza biezacym uzytkownikiem
+                var userfriends = (from u in _context.UserFriends
+                                   where u.UserId == userId
+                                   select u.FriendId).ToList();
+                userfriends.Add(userId);
                 var friends = (from u in _context.User
-                               join uf in _context.UserFriends on u.Id equals uf.UserId
-                               where u.Id != userId && u.Id != uf.FriendId
+                               where !userfriends.Contains(u.Id)
                                select u);
+                
                 friends =
                     friends.Where(x => x.Name == model.Name || x.Surname == model.Surname || x.Email == model.Email);
                 return friends.AsEnumerable();
