@@ -46,6 +46,7 @@ namespace LocalSocial.Controllers
                               where
                               range >=
                               GeoCalculator.GetDistance(model.Latitude, model.Longitude, p.Latitude, p.Longitude, 5) / 1.6
+                              orderby p.AddDate descending
                               select p);
                 //var result = _context.Post.Include(x => x.user).Where(x => x.user.SearchRange / 100 >= GeoCalculator.GetDistance(model.Latitude, model.Longitude, x.Latitude, x.Longitude, 5) / 1.6);
                 return result;
@@ -157,7 +158,7 @@ namespace LocalSocial.Controllers
         public async Task<IEnumerable<Post>> GetMyPosts()
         {
             var userId = HttpContext.User.GetUserId();
-            var posts = _context.Post.AsQueryable().Where(x => x._UserId == userId);
+            var posts = _context.Post.AsQueryable().Where(x => x._UserId == userId).OrderByDescending(p=>p.AddDate);
             return posts;
         }
     }

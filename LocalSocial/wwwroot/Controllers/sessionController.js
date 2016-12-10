@@ -6,6 +6,9 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
     $scope.Email = "";
     $scope.Password = "";
     $scope.ConfirmPassword = "";
+    $scope.EmailError = "";
+    $scope.PasswordError = "";
+    $scope.ConfirmPasswordError = "";
 
     //Function to logout user
     $scope.logout = function () {
@@ -28,13 +31,14 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
             $scope.Email = resp.data.Email;
             $localStorage.IsLogged = true;
 
-            window.location.href = "#/myposts";
             $window.location.reload();
+            window.location.href = "#/myposts";
             //window.location.reload();
         }, function (err) {
-            $scope.response = "Error " + err.status;
-            console.log('error');
-            console.log(promiselogin);
+            $scope.EmailError = "";
+            $scope.PasswordError = "";
+            $scope.EmailError = err.data.email;
+            $scope.PasswordError = err.data.Password;
         });
         //window.location.href = "https://www.google.pl/";
     };
@@ -59,10 +63,12 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
             window.location.href = "#/myposts";
             $window.location.reload();
         }, function (err) {
-
-            $scope.response = "Error " + err.status;
-            console.log('error');
-            console.log(promiseregister.login);
+            $scope.EmailError = "";
+            $scope.PasswordError = "";
+            $scope.ConfirmPasswordError = "";
+            $scope.EmailError = err.data.email;
+            $scope.PasswordError = err.data.Password;
+            $scope.ConfirmPasswordError = err.data.ConfirmPassword;
         });
     };
 };

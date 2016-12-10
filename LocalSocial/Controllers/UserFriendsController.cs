@@ -63,7 +63,8 @@ namespace LocalSocial.Controllers
                 var user = _context.User.FirstOrDefault(x => x.Id == userId);
                 //wszyscy poza biezacym uzytkownikiem
                 var friends = (from u in _context.User
-                               where u.Id != userId
+                               join uf in _context.UserFriends on u.Id equals uf.UserId
+                               where u.Id != userId && u.Id != uf.FriendId
                                select u);
                 friends =
                     friends.Where(x => x.Name == model.Name || x.Surname == model.Surname || x.Email == model.Email);

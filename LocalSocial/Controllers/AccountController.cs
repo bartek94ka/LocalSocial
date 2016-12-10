@@ -9,6 +9,8 @@ using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 [Route("api/[controller]")]
 public class AccountController : Controller
@@ -34,7 +36,13 @@ public class AccountController : Controller
     //[ValidateAntiForgeryToken]
     public async Task<IActionResult> Login([FromBody] Login model, string returnUrl = null)
     {
-        ViewData["ReturnUrl"] = returnUrl;
+        JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            Formatting = Formatting.Indented
+        };
+        Dictionary<string, string> messages = new Dictionary<string, string>();
+
         if (ModelState.IsValid)
         {
             // This doesn't count login failures towards account lockout
@@ -42,28 +50,22 @@ public class AccountController : Controller
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                _logger.LogInformation(1, "User logged in.");
-                //return RedirectToLocal(returnUrl);
                 return Ok();
             }
-            //if (result.RequiresTwoFactor)
-            //{
-            //    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-            //}
-            if (result.IsLockedOut)
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if( user != null)
             {
-                _logger.LogWarning(2, "User account locked out.");
-                return View("Lockout");
+                messages.Add("Password", "Nieprawidłowe hasło");
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                return View(model);
+                messages.Add("email", "Nieprawidłowy adres e-mail");
             }
+            string json2 = JsonConvert.SerializeObject(messages, settings);
+            // If we got this far, something failed, redisplay form
+            return HttpBadRequest(json2);//View(model);
         }
-
-        // If we got this far, something failed, redisplay form
-        return View(model);
+        return HttpBadRequest();//View(model);
     }
 
     //
@@ -74,6 +76,13 @@ public class AccountController : Controller
     //[ValidateAntiForgeryToken]
     public async Task<IActionResult> Register([FromBody] Register model)
     {
+        JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            Formatting = Formatting.Indented
+        };
+        Dictionary<string, string> messages = new Dictionary<string, string>();
+
         if (ModelState.IsValid)
         {
             var user = new User { UserName = model.Email, Email = model.Email, SearchRange = 1000};
@@ -90,11 +99,28 @@ public class AccountController : Controller
                 _logger.LogInformation(3, "User created a new account with password.");
                 return Ok();
             }
-            AddErrors(result);
+            var user2 = await _userManager.FindByEmailAsync(model.Email);
+            if (user2 != null)
+            {
+                messages.Add("email", "Podany e-mail jest już zajęty");
+            }
+            string json2 = JsonConvert.SerializeObject(messages, settings);
+            // If we got this far, something failed, redisplay form
+            return HttpBadRequest(json2);//View(model);
         }
-
+        if(model.Password == model.ConfirmPassword)
+        {
+            if (model.Password.Length < 6)
+                messages.Add("Password", "Hasło musi mieć powyżej 6 znaków");
+            else
+                messages.Add("Password", "Hasło musi zawierać znak specjalny i liczbę");
+        }else
+        {
+            messages.Add("ConfirmPassword", "Hasła muszą być identyczne");
+        }
+        string json = JsonConvert.SerializeObject(messages, settings);
         // If we got this far, something failed, redisplay form
-        return HttpBadRequest();//View(model);
+        return HttpBadRequest(json);//View(model);
     }
 
     //
