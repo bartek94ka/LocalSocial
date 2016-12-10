@@ -1,4 +1,4 @@
-﻿var FriendController = function ($scope, FriendService) {
+﻿var FriendController = function ($scope, FriendService, CommentService) {
 
     $scope.users = [];
 
@@ -9,6 +9,8 @@
         Surname: '',
         Email: '',
     };
+    $scope.comment = "";
+
     $scope.findFriend = function() {
         var promise = FriendService.FindFriend($scope.user);
         promise.then(function(resp) {
@@ -52,11 +54,28 @@
     $scope.getMyFriendsPosts = function() {
         var promisePosts = FriendService.GetMyFriendsPosts();
 
-        promisePosts.then(function(resp) {
+        promisePosts.then(function (resp) {
             $scope.userPosts = resp.data;
-            console.log(resp.data);
+            $scope.userPosts.forEach(function(item){
+                item.comment = "";
+            });
         },function(err) {
             console.log('blad w getmyfriendsposts');
+        });
+    };
+    $scope.addComment = function (Post) {
+        var commentData = {
+            Content: Post.comment,
+            PostId: Post.Id
+        };
+        console.log(Post);
+        console.log(commentData);
+        var promiseComment = CommentService.AddComment(commentData);
+
+        promiseComment.then(function (resp) {
+            window.location.href = "#/posts/" + Post.Id;
+        }, function (err) {
+            console.log('blad w add comment');
         });
     };
 };

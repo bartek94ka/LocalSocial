@@ -11,6 +11,8 @@
     UserService.$inject = ['$http'];
     FriendService.$inject = ['$http'];
     app.service('FriendService', FriendService);
+    CommentService.$inject = ['$http'];
+    app.service('CommentService', CommentService);
     
 
     app.controller('AppCtrl', SideNavController);

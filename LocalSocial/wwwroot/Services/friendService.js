@@ -8,7 +8,6 @@
         return resp;
     };
     this.FindFriend = function (data) {
-        console.log(data);
         var resp = $http({
             url: "/api/userfriends/find",
             method: "POST",
@@ -18,7 +17,6 @@
         return resp;
     };
     this.AddFriend = function (data) {
-        console.log(data);
         var resp = $http({
             url: "/api/userfriends/add",
             method: "POST",
@@ -28,7 +26,6 @@
         return resp;
     };
     this.RemoveFriend = function (data) {
-        console.log(data);
         var resp = $http({
             url: "/api/userfriends/remove",
             method: "DELETE",
