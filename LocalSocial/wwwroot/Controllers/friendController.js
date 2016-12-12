@@ -62,6 +62,7 @@
         },function(err) {
             console.log('blad w getmyfriendsposts');
         });
+        console.log($scope.userPosts);
     };
     $scope.addComment = function (Post) {
         var commentData = {

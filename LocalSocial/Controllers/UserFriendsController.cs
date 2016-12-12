@@ -31,11 +31,17 @@ namespace LocalSocial.Controllers
         {
             var userId = HttpContext.User.GetUserId();
             var posts = (from p in _context.Post
-                          join uf in _context.UserFriends on p._UserId equals uf.FriendId
-                          where uf.UserId == userId
-                          orderby p.AddDate descending 
-                          select p).AsEnumerable();
-            
+                         join uf in _context.UserFriends on p._UserId equals uf.FriendId
+                         where uf.UserId == userId
+                         orderby p.AddDate descending
+                         select p).ToList();
+            for (int i = 0; i < posts.Count; i++)
+            {
+                var user = (from us in _context.User
+                            where us.Id == posts[i]._UserId
+                            select new User { Name = us.Name, Surname = us.Surname, Email = us.Email });
+                posts[i].user = user.FirstOrDefault();
+            }
             return posts;
         }
         [Route("myfriends")]
@@ -45,9 +51,9 @@ namespace LocalSocial.Controllers
         {
             var userId = HttpContext.User.GetUserId();
             var entity = (from uf in _context.UserFriends
-                join us in _context.User on uf.FriendId equals us.Id
-                where uf.UserId == userId
-                select us).AsEnumerable();
+                          join us in _context.User on uf.FriendId equals us.Id
+                          where uf.UserId == userId
+                          select us).AsEnumerable();
             //var entity = _context.Friend.FirstOrDefault(x=>x.UserId == userId);
 
             return entity;
@@ -69,7 +75,7 @@ namespace LocalSocial.Controllers
                 var friends = (from u in _context.User
                                where !userfriends.Contains(u.Id)
                                select u);
-                
+
                 friends =
                     friends.Where(x => x.Name == model.Name || x.Surname == model.Surname || x.Email == model.Email);
                 return friends.AsEnumerable();

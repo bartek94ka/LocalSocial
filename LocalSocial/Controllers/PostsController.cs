@@ -41,15 +41,22 @@ namespace LocalSocial.Controllers
                 //    .Where(x => x.Longitude >= boundaries.MinLongitude && x.Longitude <= boundaries.MaxLongitude);
                 //range - dystans w kilometrach
                 //GeoCalculation.GetDistance(...) - zwraca dystans w milach => 1 mila = 1.6 km
-                var result = (from p in _context.Post
-                              let range = user.SearchRange / 1000
-                              where
-                              range >=
-                              GeoCalculator.GetDistance(model.Latitude, model.Longitude, p.Latitude, p.Longitude, 5) / 1.6
-                              orderby p.AddDate descending
-                              select p);
+                var posts = (from p in _context.Post
+                             let range = user.SearchRange / 1000
+                             where
+                             range >=
+                             GeoCalculator.GetDistance(model.Latitude, model.Longitude, p.Latitude, p.Longitude, 5) / 1.6
+                             orderby p.AddDate descending
+                             select p
+                                 ).ToList();
+                for (int i = 0; i < posts.Count; i++)
+                {
+                    posts[i].user = _context.User.FirstOrDefault(x => x.Id == posts[i]._UserId);
+                }
+                //range - dystans w kilometrach
+                //GeoCalculation.GetDistance(...) - zwraca dystans w milach => 1 mila = 1.6 km
                 //var result = _context.Post.Include(x => x.user).Where(x => x.user.SearchRange / 100 >= GeoCalculator.GetDistance(model.Latitude, model.Longitude, x.Latitude, x.Longitude, 5) / 1.6);
-                return result;
+                return posts;
             }
             return null;
         }
@@ -85,10 +92,10 @@ namespace LocalSocial.Controllers
         [Authorize]
         public IActionResult GetPost(int Id)
         {
-            Post post =  _context.Post.Include(x=>x.Comments).First(x => x.Id == Id);
+            Post post = _context.Post.Include(x => x.Comments).ThenInclude(p => p.User).First(x => x.Id == Id);
             var user = (from us in _context.User
                         where us.Id == post._UserId
-                        select new User { Name=us.Name, Surname=us.Surname, Email=us.Email });
+                        select new User { Name = us.Name, Surname = us.Surname, Email = us.Email });
             if (user != null && post != null)
             {
                 post.user = user.FirstOrDefault();
@@ -96,7 +103,7 @@ namespace LocalSocial.Controllers
             }
             return HttpBadRequest();
         }
-        
+
         [Route("edit/{Id:int}")]
         [HttpPut]
         [Authorize]
@@ -162,7 +169,7 @@ namespace LocalSocial.Controllers
         public async Task<IEnumerable<Post>> GetMyPosts()
         {
             var userId = HttpContext.User.GetUserId();
-            var posts = _context.Post.AsQueryable().Where(x => x._UserId == userId).OrderByDescending(p=>p.AddDate);
+            var posts = _context.Post.AsQueryable().Where(x => x._UserId == userId).OrderByDescending(p => p.AddDate);
             return posts;
         }
     }

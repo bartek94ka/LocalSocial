@@ -30,7 +30,6 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
 
             $scope.Email = resp.data.Email;
             $localStorage.IsLogged = true;
-
             $window.location.reload();
             window.location.href = "#/myposts";
             //window.location.reload();

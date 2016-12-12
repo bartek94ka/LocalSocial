@@ -1,4 +1,4 @@
-﻿(function($scope) {
+﻿(function ($scope) {
     'use strict'
     var app = angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngCookies', 'ngMessages', 'ngStorage']);
 
@@ -13,7 +13,7 @@
     app.service('FriendService', FriendService);
     CommentService.$inject = ['$http'];
     app.service('CommentService', CommentService);
-    
+
 
     app.controller('AppCtrl', SideNavController);
     app.controller('MenuController', MenuController);
@@ -91,7 +91,6 @@
                 redirectTo: '/home'
             });
     });
-    
-})();
 
+})();
 

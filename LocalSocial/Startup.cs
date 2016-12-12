@@ -68,8 +68,12 @@ namespace LocalSocial
                 .AddEntityFrameworkStores<LocalSocialContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
-
+            //services.AddMvc();
+            services.AddMvc()
+            .AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
         }
 
         
