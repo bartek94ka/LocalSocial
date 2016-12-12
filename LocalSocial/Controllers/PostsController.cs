@@ -169,7 +169,12 @@ namespace LocalSocial.Controllers
         public async Task<IEnumerable<Post>> GetMyPosts()
         {
             var userId = HttpContext.User.GetUserId();
-            var posts = _context.Post.AsQueryable().Where(x => x._UserId == userId).OrderByDescending(p => p.AddDate);
+            //var posts = _context.Post.Include(x=>x.user).AsQueryable().Where(x => x._UserId == userId).OrderByDescending(p => p.AddDate);
+            var posts = _context.Post.Where(x => x._UserId == userId).OrderByDescending(p => p.AddDate).ToList();
+            for (int i = 0; i < posts.Count; i++)
+            {
+                posts[i].user = _context.User.FirstOrDefault(x => x.Id == posts[i]._UserId);
+            }
             return posts;
         }
     }
