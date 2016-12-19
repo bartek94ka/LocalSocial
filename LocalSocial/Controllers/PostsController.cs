@@ -41,7 +41,7 @@ namespace LocalSocial.Controllers
                 //    .Where(x => x.Longitude >= boundaries.MinLongitude && x.Longitude <= boundaries.MaxLongitude);
                 //range - dystans w kilometrach
                 //GeoCalculation.GetDistance(...) - zwraca dystans w milach => 1 mila = 1.6 km
-                var posts = (from p in _context.Post
+                var posts = (from p in _context.Post.Include(p => p.PostTags)
                              let range = user.SearchRange / 1000
                              where
                              range >=
@@ -110,7 +110,7 @@ namespace LocalSocial.Controllers
         [Authorize]
         public IActionResult GetPost(int Id)
         {
-            Post post = _context.Post.Include(x => x.Comments).ThenInclude(p => p.User).First(x => x.Id == Id);
+            Post post = _context.Post.Include(x => x.Comments).ThenInclude(p => p.User).Include(x => x.PostTags).First(x => x.Id == Id);
             var user = (from us in _context.User
                         where us.Id == post._UserId
                         select new User { Name = us.Name, Surname = us.Surname, Email = us.Email });
@@ -188,7 +188,7 @@ namespace LocalSocial.Controllers
         {
             var userId = HttpContext.User.GetUserId();
             //var posts = _context.Post.Include(x=>x.user).AsQueryable().Where(x => x._UserId == userId).OrderByDescending(p => p.AddDate);
-            var posts = _context.Post.Where(x => x._UserId == userId).OrderByDescending(p => p.AddDate).ToList();
+            var posts = _context.Post.Include(x => x.PostTags).Where(x => x._UserId == userId).OrderByDescending(p => p.AddDate).ToList();
             for (int i = 0; i < posts.Count; i++)
             {
                 posts[i].user = _context.User.FirstOrDefault(x => x.Id == posts[i]._UserId);
