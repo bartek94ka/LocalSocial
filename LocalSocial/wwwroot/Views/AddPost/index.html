@@ -24,7 +24,14 @@
                     <label>Opis</label>
                     <textarea ng-model="post.description" md-maxlength="150" rows="5" md-select-on-focus style="background: white"></textarea>
                 </md-input-container>
-
+                <md-chips ng-model="post.Tags"
+                          md-removable="ctrl.removable"
+                          placeholder="Dodaj Tag"
+                          delete-button-label="Usuń Tag"
+                          delete-hint="Naciśnij usuń, aby zlikwidować tag"
+                          secondary-placeholder="+Tag">
+                </md-chips>
+                <br />
             </form>
         </div>
         <md-button class="md-raised md primary" ng-click="AddPost()">Dodaj post</md-button>

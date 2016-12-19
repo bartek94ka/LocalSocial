@@ -1,4 +1,7 @@
-﻿var PostController = function ($scope,$routeParams, PostService, UserService) {
+﻿var PostController = function ($scope, $routeParams, $mdConstant, PostService, UserService) {
+    // Use common key codes found in $mdConstant.KEY_CODE...
+    this.keys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
+
     $scope.Lat = null;
     $scope.Lng = null;
     $scope.post = {
@@ -8,6 +11,7 @@
         description: '',
         Id: '',
         Comments: [],
+        Tags: [],
     };
     $scope.UserId = "";
     $scope.comment = {
@@ -116,6 +120,7 @@
             Description: $scope.post.description,
             Latitude: $scope.Lat,
             Longitude: $scope.Lng,
+            Tags: $scope.post.Tags,
         };
 
         var promisePost = PostService.addPost(postData);

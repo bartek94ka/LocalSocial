@@ -22,7 +22,7 @@
         var resp = $http({
             url: "/api/posts/add",
             method: "POST",
-            data: { Title: data.Title, Description: data.Description, Latitude: data.Latitude, Longitude: data.Longitude },
+            data: { Title: data.Title, Description: data.Description, Latitude: data.Latitude, Longitude: data.Longitude, Tags: data.Tags },
             headers: { 'Content-Type': 'application/json' }
         });
         return resp;
