@@ -56,9 +56,7 @@ namespace LocalSocial.Migrations
                 {
                     b.Property<int>("PostId");
 
-                    b.Property<int>("TagId");
-
-                    b.Property<string>("TagId1");
+                    b.Property<string>("TagId");
 
                     b.HasKey("PostId", "TagId");
                 });
@@ -241,7 +239,7 @@ namespace LocalSocial.Migrations
 
                     b.HasOne("LocalSocial.Models.Tag")
                         .WithMany()
-                        .HasForeignKey("TagId1");
+                        .HasForeignKey("TagId");
                 });
 
             modelBuilder.Entity("LocalSocial.Models.UserFriends", b =>

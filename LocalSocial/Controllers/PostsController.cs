@@ -69,18 +69,36 @@ namespace LocalSocial.Controllers
             {
                 var userId = HttpContext.User.GetUserId();
                 var user = _context.User.FirstOrDefault(x => x.Id == userId);
-                _context.Post.Add(
-                    new Post()
+                var newPost = new Post()
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    AddDate = DateTime.Now,
+                    Latitude = model.Latitude,
+                    Longitude = model.Longitude,
+                    _UserId = userId,
+                    user = user
+                };
+                _context.Post.Add(newPost);
+                _context.SaveChanges();
+                var addedPost = _context.Post.Last();
+                foreach (var item in model.Tags)
+                {
+                    var tag = _context.Tag.FirstOrDefault(x => x.Id == item);
+                    if (tag == null)
                     {
-                        Title = model.Title,
-                        Description = model.Description,
-                        AddDate = DateTime.Now,
-                        Latitude = model.Latitude,
-                        Longitude = model.Longitude,
-                        _UserId = userId,
-                        user = user
-
+                        tag = new Tag
+                        {
+                            Id = item
+                        };
+                        _context.Tag.Add(tag);
+                    }
+                    addedPost.PostTags.Add(new PostTags
+                    {
+                        PostId = addedPost.Id,
+                        TagId = tag.Id
                     });
+                }
                 await _context.SaveChangesAsync();
                 return Ok();
             }

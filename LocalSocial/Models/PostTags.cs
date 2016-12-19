@@ -12,6 +12,6 @@ namespace LocalSocial.Models
         [ForeignKey("Post")]
         public int PostId { get; set; }
         [ForeignKey("Tag")]
-        public int TagId { get; set; }
+        public string TagId { get; set; }
     }
 }

@@ -39,5 +39,7 @@ namespace LocalSocial.Models
         public float Latitude { get; set; }
         [Required]
         public float Longitude { get; set; }
+        [Required]
+        public string[] Tags { get; set; }
     }
 }

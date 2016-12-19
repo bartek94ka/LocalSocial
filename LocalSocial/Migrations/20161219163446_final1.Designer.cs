@@ -8,8 +8,8 @@ using LocalSocial;
 namespace LocalSocial.Migrations
 {
     [DbContext(typeof(LocalSocialContext))]
-    [Migration("20161125100138_correct8")]
-    partial class correct8
+    [Migration("20161219163446_final1")]
+    partial class final1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,9 +26,7 @@ namespace LocalSocial.Migrations
 
                     b.Property<int>("PostId");
 
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
                 });
@@ -59,9 +57,7 @@ namespace LocalSocial.Migrations
                 {
                     b.Property<int>("PostId");
 
-                    b.Property<int>("TagId");
-
-                    b.Property<string>("TagId1");
+                    b.Property<string>("TagId");
 
                     b.HasKey("PostId", "TagId");
                 });
@@ -226,7 +222,7 @@ namespace LocalSocial.Migrations
 
                     b.HasOne("LocalSocial.Models.User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("LocalSocial.Models.Post", b =>
@@ -244,7 +240,7 @@ namespace LocalSocial.Migrations
 
                     b.HasOne("LocalSocial.Models.Tag")
                         .WithMany()
-                        .HasForeignKey("TagId1");
+                        .HasForeignKey("TagId");
                 });
 
             modelBuilder.Entity("LocalSocial.Models.UserFriends", b =>
