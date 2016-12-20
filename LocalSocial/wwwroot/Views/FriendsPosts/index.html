@@ -16,6 +16,9 @@
                     <span class="md-headline">{{item.Title}}</span>
                 </md-card-title-text>
             </md-card-title>
+            <ul ng-repeat="tag in item.PostTags">
+                <a href="#/tag/{{tag.TagId}}">{{tag.TagId}}</a>
+            </ul>
             <md-card-content>
                 <p>
                     {{item.Description}}

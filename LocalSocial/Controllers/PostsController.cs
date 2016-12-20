@@ -104,6 +104,31 @@ namespace LocalSocial.Controllers
             }
             return HttpBadRequest();
         }
+        // GET: api/Posts
+        [Route("tag")]
+        [HttpPost]
+        [Authorize]
+        public async Task<IEnumerable<Post>> GetPostsByTag([FromBody] TagBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var posts = (from p in _context.Post.Include(p => p.PostTags)
+                             join pt in _context.PostTags on p.Id equals pt.PostId
+                             where pt.TagId == model.TagId
+                             orderby p.AddDate descending
+                             select p).ToList();
+                for (int i = 0; i < posts.Count; i++)
+                {
+                    var user = (from us in _context.User
+                                where us.Id == posts[i]._UserId
+                                select new User { Name = us.Name, Surname = us.Surname, Email = us.Email });
+                    posts[i].user = user.FirstOrDefault();
+                }
+                
+                return posts;
+            }
+            return null;
+        }
 
         [Route("post/{Id:int}")]
         [HttpGet]

@@ -1,4 +1,4 @@
-﻿var PostController = function ($scope, $routeParams, $mdConstant, PostService, UserService) {
+﻿var PostController = function ($scope, $routeParams, $mdConstant, $location, PostService, UserService) {
     // Use common key codes found in $mdConstant.KEY_CODE...
     this.keys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
 
@@ -45,6 +45,20 @@
                 }
             );
         }
+    };
+    $scope.GetPostByTag = function ()
+    {
+        console.log($routeParams)
+        var searchObject = $location.search();
+        console.log(searchObject);
+        var promisePosts = PostService.getPostsById($routeParams.id);
+
+        promisePosts.then(function (resp) {
+            $scope.userPosts = resp.data;
+        },
+            function (err) {
+                console.log('error w GetPostByTag');
+            });
     };
     $scope.GetPostFromRange = function () {
         
@@ -95,6 +109,7 @@
                 $scope.post.Comments = resp.data.Comments;
                 $scope.post.userName = resp.data.user.Name;
                 $scope.post.userSurname = resp.data.user.Surname;
+                $scope.post.Tags = resp.data.PostTags;
                 console.log(resp);
             },
             function(err) {

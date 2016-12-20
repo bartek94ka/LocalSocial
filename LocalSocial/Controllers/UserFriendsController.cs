@@ -30,7 +30,7 @@ namespace LocalSocial.Controllers
         public async Task<IEnumerable<Post>> GetMyFriendsPosts()
         {
             var userId = HttpContext.User.GetUserId();
-            var posts = (from p in _context.Post
+            var posts = (from p in _context.Post.Include(p => p.PostTags)
                          join uf in _context.UserFriends on p._UserId equals uf.FriendId
                          where uf.UserId == userId
                          orderby p.AddDate descending

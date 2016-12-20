@@ -19,4 +19,9 @@ namespace LocalSocial.Models
         public string Id { get; set; }
         public virtual ICollection<PostTags> PostTags { get; private set; }
     }
+    public class TagBindingModel
+    {
+        [Required]
+        public string TagId { get; set; }
+    }
 }

@@ -36,6 +36,15 @@
         });
         return resp;
     };
+    this.getPostsById = function (TagId) {
+        var resp = $http({
+            url: "/api/posts/tag",
+            method: "POST",
+            data: { TagId: TagId },
+            headers: { 'Content-Type': 'application/json' }
+        });
+        return resp;
+    };
     this.getPost = function (id) {
         var resp = $http({
             url: "/api/posts/post/" + id,

@@ -32,6 +32,11 @@
             {
                 templateUrl: 'Views/AddPost/index.html'
             })
+            //.when('/tag/:TagId?',
+            .when('/tag/:id',
+            {
+                templateUrl: 'Views/PostsByTag/index.html'
+            })
             .when('/posts/:postId',
             {
                 templateUrl: 'Views/PostDetails/index.html'

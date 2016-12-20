@@ -1,10 +1,11 @@
-﻿<div layout="row" layout-align="center center" ng-controller="PostController" ng-init="GetPosts()">
+﻿<div layout="row" layout-align="center center" ng-controller="PostController" ng-init="GetPostByTag()">
     <ul align-items:center flex-gt-xs="50" layout-margin>
         <md-card class="card" ng-repeat="item in userPosts" style="background: #f3f2f2">
             <md-card-header>
                 <md-card-avatar>
                     <img class="md-user-avatar" src="../../img/Avatars/png/boy-1.png" />
                 </md-card-avatar>
+                <md-icon md-svg-icon="avatars:svg-1"></md-icon>
                 <md-card-header-text>
                     <span class="md-title">{{item.user.Name}} {{item.user.Surname}}</span>
                     <span class="md-subhead">{{item.AddDate | date:'yyyy-MM-dd HH:mm'}}</span>
@@ -23,8 +24,8 @@
                     {{item.Description}}
                 </p>
                 <md-input-container class="md-block" layout="row" layout-align="start center">
-                    <textarea ng-model="post.description" rows="1" md-select-on-focus style="background: white"></textarea>
-                    <md-button ng-click="">Dodaj</md-button>
+                    <textarea ng-model="item.comment" rows="1" md-select-on-focus style="background: white"></textarea>
+                    <md-button ng-click="addComment(item)">Dodaj</md-button>
                     <md-button href="#/posts/{{item.Id}}">Szczegóły</md-button>
                 </md-input-container>
             </md-card-content>

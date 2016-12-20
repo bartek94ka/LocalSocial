@@ -59,6 +59,7 @@
             $scope.userPosts.forEach(function(item){
                 item.comment = "";
             });
+            console.log($scope.userPosts);
         },function(err) {
             console.log('blad w getmyfriendsposts');
         });

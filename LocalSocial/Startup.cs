@@ -128,6 +128,9 @@ namespace LocalSocial
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action}/{id?}");
+                routes.MapRoute(
+                    name: "TagRoute",
+                    template: "Posts/tag/TagId");
             });
             //app.UseMvc();
         }
