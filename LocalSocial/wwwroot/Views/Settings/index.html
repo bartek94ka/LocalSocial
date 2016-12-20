@@ -12,6 +12,16 @@
             <label>Zasięg (w metrach)</label>
             <input md-input type="number" ng-model="SearchRange" required>
         </md-input-container>
+        <p>Wybór domyślnego Avatara</p>
+        <md-divider></md-divider>
+        <md-radio-group ng-model="Avatar">
+            <md-radio-button ng-repeat="it in avatarData"
+                             ng-value="it.value"
+                             aria-label="{{it.title}}">
+                
+                    <md-icon md-svg-icon="../../img/Avatars/svg/{{it.id}}.svg" style="height:48px; width:48px" />
+            </md-radio-button>
+        </md-radio-group>
         <md-button class="md-raised md primary" ng-click="SaveChanges()">Zapisz</md-button>
     </md-content>
 </div>

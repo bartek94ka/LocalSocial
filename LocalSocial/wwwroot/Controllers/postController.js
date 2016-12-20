@@ -1,4 +1,4 @@
-﻿var PostController = function ($scope, $routeParams, $mdConstant, $location, PostService, UserService) {
+﻿var PostController = function ($scope, $routeParams, $mdConstant, $location, PostService, UserService, CommentService) {
     // Use common key codes found in $mdConstant.KEY_CODE...
     this.keys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
 
@@ -7,6 +7,7 @@
     $scope.post = {
         userName: "",
         userSurname: "",
+        avatar: "",
         title: '',
         description: '',
         Id: '',
@@ -19,6 +20,22 @@
         PostId: ''
     }
     $scope.userPosts = [];
+    $scope.addComment = function (Post) {
+        var commentData = {
+            Content: Post.comment,
+            PostId: Post.Id
+        };
+        console.log(Post);
+        console.log(commentData);
+        var promiseComment = CommentService.AddComment(commentData);
+
+        promiseComment.then(function (resp) {
+            window.location.href = "#/posts/" + Post.Id;
+        }, function (err) {
+            console.log('blad w add comment');
+        });
+    };
+
     $scope.GetLocation = function() {
         if (navigator.geolocation) {
 
@@ -71,6 +88,9 @@
 
         promisePosts.then(function(resp) {
             $scope.userPosts = resp.data;
+            $scope.userPosts.forEach(function (item) {
+                item.comment = "";
+            });
             },
             function(err) {
                 console.log('error w getpostfromrange');
@@ -110,6 +130,7 @@
                 $scope.post.userName = resp.data.user.Name;
                 $scope.post.userSurname = resp.data.user.Surname;
                 $scope.post.Tags = resp.data.PostTags;
+                $scope.post.avatar = resp.data.user.Avatar;
                 console.log(resp);
             },
             function(err) {

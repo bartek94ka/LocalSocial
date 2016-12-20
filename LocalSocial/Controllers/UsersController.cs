@@ -31,7 +31,7 @@ namespace LocalSocial.Controllers
             var userId = HttpContext.User.GetUserId();
             var user = _context.User.FirstOrDefault(x => x.Id == userId);
             if (user != null)
-                return Ok(new UserBindingModel { Name = user.Name, Surname = user.Surname, SearchRange = user.SearchRange });
+                return Ok(new UserBindingModel { Name = user.Name, Surname = user.Surname, SearchRange = user.SearchRange, Avatar = user.Avatar });
             else
                 return Ok();
         }
@@ -50,6 +50,7 @@ namespace LocalSocial.Controllers
                     user.Name = model.Name;
                     user.Surname = model.Surname;
                     user.SearchRange = model.SearchRange;
+                    user.Avatar = model.Avatar;
                     //await _userManager.ChangePasswordAsync(User, model.OldPassword, model.NewPassword);
                     await _context.SaveChangesAsync();
                     return Ok();

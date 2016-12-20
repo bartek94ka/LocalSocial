@@ -121,7 +121,7 @@ namespace LocalSocial.Controllers
                 {
                     var user = (from us in _context.User
                                 where us.Id == posts[i]._UserId
-                                select new User { Name = us.Name, Surname = us.Surname, Email = us.Email });
+                                select new User { Name = us.Name, Surname = us.Surname, Email = us.Email, Avatar = us.Avatar });
                     posts[i].user = user.FirstOrDefault();
                 }
                 
@@ -138,7 +138,7 @@ namespace LocalSocial.Controllers
             Post post = _context.Post.Include(x => x.Comments).ThenInclude(p => p.User).Include(x => x.PostTags).First(x => x.Id == Id);
             var user = (from us in _context.User
                         where us.Id == post._UserId
-                        select new User { Name = us.Name, Surname = us.Surname, Email = us.Email });
+                        select new User { Name = us.Name, Surname = us.Surname, Email = us.Email, Avatar = us.Avatar });
             if (user != null && post != null)
             {
                 post.user = user.FirstOrDefault();

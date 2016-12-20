@@ -26,8 +26,8 @@ namespace LocalSocial.Models
 
         public virtual ICollection<Post> Posts { get; private set; }
         public virtual ICollection<UserFriends> Friends { get; private set; }
-        //public virtual ICollection<User> Friends { get; private set; }
-        //public virtual ICollection<User> Users { get; private set; }
+        
+        public string Avatar { get; set; }
 
     }
     public class UserBindingModel
@@ -40,5 +40,6 @@ namespace LocalSocial.Models
         public float SearchRange { get; set; }
         public string Email { get; set; }
         public string Id { get; set; }
+        public string Avatar { get; set; }
     }
 }

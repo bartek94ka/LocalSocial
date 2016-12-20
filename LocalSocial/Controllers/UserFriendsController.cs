@@ -39,7 +39,7 @@ namespace LocalSocial.Controllers
             {
                 var user = (from us in _context.User
                             where us.Id == posts[i]._UserId
-                            select new User { Name = us.Name, Surname = us.Surname, Email = us.Email });
+                            select new User { Name = us.Name, Surname = us.Surname, Email = us.Email, Avatar = us.Avatar });
                 posts[i].user = user.FirstOrDefault();
             }
             return posts;
