@@ -24,8 +24,8 @@
             value: 'girl-1'
         }, {
             id: "man-1",
-            title: 'man-2',
-            value: 'man-2'
+            title: 'man-1',
+            value: 'man-1'
         }, {
             id: "girl-8",
             title: 'girl-8',
