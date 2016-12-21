@@ -131,7 +131,6 @@
                 $scope.post.userSurname = resp.data.user.Surname;
                 $scope.post.Tags = resp.data.PostTags;
                 $scope.post.avatar = resp.data.user.Avatar;
-                console.log(resp);
             },
             function(err) {
             });

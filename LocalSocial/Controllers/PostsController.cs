@@ -154,14 +154,36 @@ namespace LocalSocial.Controllers
         {
             if (ModelState.IsValid)
             {
-                Post post = await _context.Post.FirstAsync(x => x.Id == Id);
+                Post post = await _context.Post.Include(p=>p.PostTags).FirstAsync(x => x.Id == Id);
                 if (post != null)
                 {
                     post.Title = model.Title;
                     post.Description = model.Description;
+                    foreach (var item in post.PostTags)
+                    {
+                        _context.Remove(item);
+                    }
                     try
                     {
-                        await _context.SaveChangesAsync();
+                        _context.SaveChanges();
+                        var editedPost = _context.Post.Where(x => x.Id == Id).First();
+                        foreach (var item in model.Tags)
+                        {
+                            var tag = _context.Tag.FirstOrDefault(x => x.Id == item);
+                            if (tag == null)
+                            {
+                                tag = new Tag
+                                {
+                                    Id = item
+                                };
+                                _context.Tag.Add(tag);
+                            }
+                            editedPost.PostTags.Add(new PostTags
+                            {
+                                PostId = editedPost.Id,
+                                TagId = tag.Id
+                            });
+                        }
                         return Ok();
                     }
                     catch
@@ -178,11 +200,19 @@ namespace LocalSocial.Controllers
         [Authorize]
         public async Task<IActionResult> DeletePost(int Id)
         {
-            Post post = await _context.Post.FirstAsync(x => x.Id == Id);
+            Post post = await _context.Post.Include(x=>x.Comments).Include(x=>x.PostTags).FirstAsync(x => x.Id == Id);
             if (post != null)
             {
                 try
                 {
+                    foreach (var item in post.Comments)
+                    {
+                        _context.Remove(item);
+                    }
+                    foreach (var item in post.PostTags)
+                    {
+                        _context.Remove(item);
+                    }
                     _context.Remove(post);
                     await _context.SaveChangesAsync();
                     return Ok();

@@ -24,6 +24,11 @@
                     {{item.Description}}
                 </p>
             </md-card-content>
+
+            <md-input-container class="md-block" layout="row" layout-align="start center">
+                <md-button href="#/editpost/{{item.Id}}">Edytuj</md-button>
+                <md-button ng-click="DeleteMyPost(item)">Usuń</md-button>
+            </md-input-container>
         </md-card>
     </ul>
 </div>
