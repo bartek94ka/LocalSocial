@@ -73,7 +73,6 @@ public class AccountController : Controller
     [Route("register")]
     [HttpPost]
     [AllowAnonymous]
-    //[ValidateAntiForgeryToken]
     public async Task<IActionResult> Register([FromBody] Register model)
     {
         JsonSerializerSettings settings = new JsonSerializerSettings
@@ -89,12 +88,6 @@ public class AccountController : Controller
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                // Send an email with this link
-                //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 _logger.LogInformation(3, "User created a new account with password.");
                 return Ok();
@@ -105,8 +98,7 @@ public class AccountController : Controller
                 messages.Add("email", "Podany e-mail jest już zajęty");
             }
             string json2 = JsonConvert.SerializeObject(messages, settings);
-            // If we got this far, something failed, redisplay form
-            return HttpBadRequest(json2);//View(model);
+            return HttpBadRequest(json2);
         }
         if(model.Password == model.ConfirmPassword)
         {
@@ -119,8 +111,7 @@ public class AccountController : Controller
             messages.Add("ConfirmPassword", "Hasła muszą być identyczne");
         }
         string json = JsonConvert.SerializeObject(messages, settings);
-        // If we got this far, something failed, redisplay form
-        return HttpBadRequest(json);//View(model);
+        return HttpBadRequest(json);
     }
 
     //
@@ -128,11 +119,9 @@ public class AccountController : Controller
     [Route("logoff")]
     [HttpPost]
     [Authorize]
-    //[ValidateAntiForgeryToken]
     public async Task<IActionResult> LogOff()
     {
         await _signInManager.SignOutAsync();
-        _logger.LogInformation(4, "User logged out.");
         return Ok();
     }
 

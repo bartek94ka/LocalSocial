@@ -18,7 +18,6 @@ var SessionController = function ($scope, $cookieStore, $rootScope, $localStorag
         $window.location.reload();
     };
     $scope.login = function () {
-        //This is the information to pass for token based authentication
         var userLogin = {
             Email: $scope.Email,
             Password: $scope.Password
